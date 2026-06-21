@@ -134,9 +134,9 @@ export const WEBSITE_PACKAGES: PricingPackage[] = [
 export const ECOMMERCE_PACKAGES: PricingPackage[] = [
   {
     id: "eco_basic",
-    name: "Basic Store",
-    price: 20000,
-    priceDisplay: "₹20,000",
+    name: "Basic E-Commerce",
+    price: 30000,
+    priceDisplay: "₹30,000",
     badge: "Starter E-Commerce",
     description: "A professional online catalog with cart functionality and manual checkout requests.",
     features: [
@@ -150,9 +150,9 @@ export const ECOMMERCE_PACKAGES: PricingPackage[] = [
   },
   {
     id: "eco_standard",
-    name: "Standard Store",
-    price: 35000,
-    priceDisplay: "₹35,000",
+    name: "Standard E-Commerce",
+    price: 45000,
+    priceDisplay: "₹45,000",
     badge: "Most Popular",
     description: "A complete online store setup with automated payments, customer accounts, and coupons.",
     features: [
@@ -166,9 +166,9 @@ export const ECOMMERCE_PACKAGES: PricingPackage[] = [
   },
   {
     id: "eco_premium",
-    name: "Premium Store",
-    price: 60000,
-    priceDisplay: "₹60,000+",
+    name: "Premium E-Commerce",
+    price: 75000,
+    priceDisplay: "₹75,000+",
     badge: "Enterprise Ready",
     description: "Advanced marketplace or customized store with complex logic, multi-vendor support, and analytics.",
     features: [
