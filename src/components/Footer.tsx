@@ -1,12 +1,12 @@
 import React from 'react';
-import { Mail, MessageCircle, Globe, Github, Linkedin, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, MessageCircle, Globe, Github, Linkedin, MapPin } from 'lucide-react';
 import { BRAND_INFO } from '../data/pricingData';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 pt-16 pb-28 lg:pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
         {/* About Column */}
         <div className="space-y-4 md:col-span-1 text-left">
@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-600">
-        <p>© {currentYear} {BRAND_INFO.name}. All rights reserved.</p>
+        <p>© {currentYear} {BRAND_INFO.name}. Designed & Developed by Hardik Kanajariya.</p>
         <div className="flex gap-4">
           <span className="hover:text-slate-500">Gujarati Support Available</span>
           <span>•</span>

@@ -19,7 +19,7 @@ export const MobilePackages: React.FC<MobilePackagesProps> = ({ selectedId, onSe
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {MOBILE_PACKAGES.map((pkg) => {
           const isSelected = selectedId === pkg.id;
 

@@ -19,7 +19,7 @@ export const WebsitePackages: React.FC<WebsitePackagesProps> = ({ selectedId, on
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {WEBSITE_PACKAGES.map((pkg) => {
           const isSelected = selectedId === pkg.id;
           const isFeatured = pkg.id === 'web_business'; // "Best for Growing Businesses" is featured

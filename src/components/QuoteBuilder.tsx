@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Trash2, Calculator, ArrowRight, MessageSquare, X, ChevronUp, ChevronDown } from 'lucide-react';
+import { Trash2, Calculator, ArrowRight, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { 
   PricingPackage, ServiceItem, ShopifyServiceItem, 
-  ProductUploadTier, HostingTier, MaintenanceTier 
+  HostingTier, MaintenanceTier 
 } from '../data/pricingData';
 
 interface QuoteBuilderProps {
@@ -11,7 +11,11 @@ interface QuoteBuilderProps {
   selectedMobile: PricingPackage | null;
   selectedServices: ServiceItem[];
   selectedShopify: ShopifyServiceItem[];
-  selectedUpload: ProductUploadTier | null;
+  
+  productInsertCount: number;
+  aiPhotoProductCount: number;
+  aiPhotoImagesPerProduct: number;
+  
   selectedHosting: HostingTier | null;
   selectedMaintenance: MaintenanceTier | null;
   
@@ -20,7 +24,10 @@ interface QuoteBuilderProps {
   onRemoveMobile: () => void;
   onRemoveService: (id: string) => void;
   onRemoveShopify: (id: string) => void;
-  onRemoveUpload: () => void;
+  
+  onRemoveProductInsert: () => void;
+  onRemoveAiPhoto: () => void;
+  
   onRemoveHosting: () => void;
   onRemoveMaintenance: () => void;
   onReset: () => void;
@@ -33,7 +40,11 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
   selectedMobile,
   selectedServices,
   selectedShopify,
-  selectedUpload,
+  
+  productInsertCount,
+  aiPhotoProductCount,
+  aiPhotoImagesPerProduct,
+  
   selectedHosting,
   selectedMaintenance,
   
@@ -42,7 +53,10 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
   onRemoveMobile,
   onRemoveService,
   onRemoveShopify,
-  onRemoveUpload,
+  
+  onRemoveProductInsert,
+  onRemoveAiPhoto,
+  
   onRemoveHosting,
   onRemoveMaintenance,
   onReset,
@@ -73,8 +87,14 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
       oneTime += s.price;
     });
 
-    // Upload tier
-    if (selectedUpload) oneTime += selectedUpload.price;
+    // Dynamic data entry services (₹40 per product)
+    oneTime += productInsertCount * 40;
+
+    // Dynamic AI photography services (₹100 base for 2 images, ₹40 for each extra image)
+    if (aiPhotoProductCount > 0) {
+      const extraImages = Math.max(0, aiPhotoImagesPerProduct - 2);
+      oneTime += aiPhotoProductCount * (100 + extraImages * 40);
+    }
 
     // Hosting yearly
     if (selectedHosting) yearly += selectedHosting.price;
@@ -89,7 +109,8 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
   const hasItems = !!(
     selectedWebsite || selectedEcommerce || selectedMobile || 
     selectedServices.length > 0 || selectedShopify.length > 0 || 
-    selectedUpload || selectedHosting || selectedMaintenance
+    productInsertCount > 0 || aiPhotoProductCount > 0 ||
+    selectedHosting || selectedMaintenance
   );
 
   const formattedCurrency = (value: number) => {
@@ -183,16 +204,36 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
         </div>
       ))}
 
-      {/* Shopify Upload Tier */}
-      {selectedUpload && (
+      {/* Dynamic Product Data Entry */}
+      {productInsertCount > 0 && (
         <div className="flex justify-between items-start text-xs bg-slate-50 border border-slate-200 p-2.5 rounded-lg group">
           <div className="space-y-0.5">
-            <span className="font-bold text-slate-900">Upload: {selectedUpload.range}</span>
-            <span className="block text-[10px] text-slate-400">Product upload catalog</span>
+            <span className="font-bold text-slate-900">Product Data Entry ({productInsertCount} items)</span>
+            <span className="block text-[10px] text-slate-400">₹40 per product (No min)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">{selectedUpload.price > 0 ? formattedCurrency(selectedUpload.price) : 'Custom Quote'}</span>
-            <button onClick={onRemoveUpload} className="text-slate-400 hover:text-red-500 transition-colors">
+            <span className="font-bold text-slate-800">{formattedCurrency(productInsertCount * 40)}</span>
+            <button onClick={onRemoveProductInsert} className="text-slate-400 hover:text-red-500 transition-colors">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Dynamic AI Product Photography */}
+      {aiPhotoProductCount > 0 && (
+        <div className="flex justify-between items-start text-xs bg-slate-50 border border-slate-200 p-2.5 rounded-lg group">
+          <div className="space-y-0.5">
+            <span className="font-bold text-slate-900">AI Product Photos ({aiPhotoProductCount} items)</span>
+            <span className="block text-[10px] text-slate-400">{aiPhotoImagesPerProduct} images/product</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-slate-800">
+              {formattedCurrency(
+                aiPhotoProductCount * (100 + Math.max(0, aiPhotoImagesPerProduct - 2) * 40)
+              )}
+            </span>
+            <button onClick={onRemoveAiPhoto} className="text-slate-400 hover:text-red-500 transition-colors">
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -260,7 +301,7 @@ export const QuoteBuilder: React.FC<QuoteBuilderProps> = ({
             </div>
             <p className="text-slate-400 text-sm font-light">Your quote is empty.</p>
             <p className="text-slate-500 text-xs leading-normal px-4">
-              Select packages, custom integrations, hosting, and support options above to build your live price estimate.
+              Select packages, custom integrations, hosting, and data options above to build your live price estimate.
             </p>
           </div>
         ) : (

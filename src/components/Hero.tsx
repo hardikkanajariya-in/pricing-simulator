@@ -28,7 +28,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
             Hardik Kanajariya
           </div>
           
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[1.1] text-white">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[1.1] text-white">
             Affordable Websites, <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent">
               E-Commerce & Software

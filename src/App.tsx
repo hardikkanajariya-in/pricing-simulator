@@ -13,7 +13,7 @@ import { QuoteModal } from './components/QuoteModal';
 
 import { 
   PricingPackage, ServiceItem, ShopifyServiceItem, 
-  ProductUploadTier, HostingTier, MaintenanceTier, BRAND_INFO 
+  HostingTier, MaintenanceTier, BRAND_INFO 
 } from './data/pricingData';
 import { MessageSquare, Shield, Star, Award, Zap } from 'lucide-react';
 
@@ -24,9 +24,13 @@ function App() {
   const [selectedMobile, setSelectedMobile] = useState<PricingPackage | null>(null);
   const [selectedServices, setSelectedServices] = useState<ServiceItem[]>([]);
   const [selectedShopify, setSelectedShopify] = useState<ShopifyServiceItem[]>([]);
-  const [selectedUpload, setSelectedUpload] = useState<ProductUploadTier | null>(null);
   const [selectedHosting, setSelectedHosting] = useState<HostingTier | null>(null);
   const [selectedMaintenance, setSelectedMaintenance] = useState<MaintenanceTier | null>(null);
+  
+  // New dynamic entry/photography states
+  const [productInsertCount, setProductInsertCount] = useState<number>(0);
+  const [aiPhotoProductCount, setAiPhotoProductCount] = useState<number>(0);
+  const [aiPhotoImagesPerProduct, setAiPhotoImagesPerProduct] = useState<number>(2);
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,10 +70,6 @@ function App() {
     });
   };
 
-  const handleSelectUploadTier = (tier: ProductUploadTier | null) => {
-    setSelectedUpload(tier);
-  };
-
   const handleSelectHosting = (tier: HostingTier | null) => {
     setSelectedHosting(tier);
   };
@@ -85,9 +85,11 @@ function App() {
     setSelectedMobile(null);
     setSelectedServices([]);
     setSelectedShopify([]);
-    setSelectedUpload(null);
     setSelectedHosting(null);
     setSelectedMaintenance(null);
+    setProductInsertCount(0);
+    setAiPhotoProductCount(0);
+    setAiPhotoImagesPerProduct(2);
   };
 
   const scrollToCalculator = () => {
@@ -108,7 +110,16 @@ function App() {
     if (selectedMobile) oneTime += selectedMobile.price;
     selectedServices.forEach(s => { oneTime += s.price; });
     selectedShopify.forEach(s => { oneTime += s.price; });
-    if (selectedUpload) oneTime += selectedUpload.price;
+    
+    // Add product data entry: ₹40 per product
+    oneTime += productInsertCount * 40;
+    
+    // Add AI photography: ₹100 base (includes 2 images), ₹40 per additional image
+    if (aiPhotoProductCount > 0) {
+      const extraImages = Math.max(0, aiPhotoImagesPerProduct - 2);
+      oneTime += aiPhotoProductCount * (100 + extraImages * 40);
+    }
+    
     if (selectedHosting) yearly += selectedHosting.price;
     if (selectedMaintenance) monthly += selectedMaintenance.price;
 
@@ -145,7 +156,7 @@ function App() {
             <a href="#ecommerce" className="hover:text-indigo-600 transition-colors">E-Commerce</a>
             <a href="#mobile" className="hover:text-indigo-600 transition-colors">Mobile Apps</a>
             <a href="#services" className="hover:text-indigo-600 transition-colors">Services</a>
-            <a href="#shopify" className="hover:text-indigo-600 transition-colors">Shopify</a>
+            <a href="#shopify" className="hover:text-indigo-600 transition-colors">Shopify & Data</a>
             <a href="#hosting" className="hover:text-indigo-600 transition-colors">Hosting</a>
           </nav>
 
@@ -190,11 +201,11 @@ function App() {
       </section>
 
       {/* Split Layout Container */}
-      <main id="catalog-grid" className="max-w-7xl mx-auto py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex-grow">
+      <main id="catalog-grid" className="max-w-7xl mx-auto py-8 lg:py-16 px-4 sm:px-6 lg:px-8 flex-grow">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Pricing components */}
-          <div className="lg:col-span-8 space-y-16 sm:space-y-20 pb-20">
+          <div className="lg:col-span-8 space-y-12 sm:space-y-20 pb-24 lg:pb-0">
             
             {/* Website Packages */}
             <section id="websites" className="scroll-mt-24">
@@ -232,9 +243,13 @@ function App() {
             <section id="shopify" className="scroll-mt-24">
               <ShopifyServices 
                 selectedShopifyIds={selectedShopify.map(s => s.id)}
-                selectedUploadTierId={selectedUpload?.id || null}
                 onToggleShopifyService={handleToggleShopifyService}
-                onSelectUploadTier={handleSelectUploadTier}
+                productInsertCount={productInsertCount}
+                onProductInsertCountChange={setProductInsertCount}
+                aiPhotoProductCount={aiPhotoProductCount}
+                onAiPhotoProductCountChange={setAiPhotoProductCount}
+                aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
+                onAiPhotoImagesPerProductChange={setAiPhotoImagesPerProduct}
               />
             </section>
 
@@ -258,7 +273,11 @@ function App() {
               selectedMobile={selectedMobile}
               selectedServices={selectedServices}
               selectedShopify={selectedShopify}
-              selectedUpload={selectedUpload}
+              
+              productInsertCount={productInsertCount}
+              aiPhotoProductCount={aiPhotoProductCount}
+              aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
+              
               selectedHosting={selectedHosting}
               selectedMaintenance={selectedMaintenance}
               
@@ -267,7 +286,10 @@ function App() {
               onRemoveMobile={() => setSelectedMobile(null)}
               onRemoveService={(id) => setSelectedServices(prev => prev.filter(s => s.id !== id))}
               onRemoveShopify={(id) => setSelectedShopify(prev => prev.filter(s => s.id !== id))}
-              onRemoveUpload={() => setSelectedUpload(null)}
+              
+              onRemoveProductInsert={() => setProductInsertCount(0)}
+              onRemoveAiPhoto={() => { setAiPhotoProductCount(0); setAiPhotoImagesPerProduct(2); }}
+              
               onRemoveHosting={() => setSelectedHosting(null)}
               onRemoveMaintenance={() => setSelectedMaintenance(null)}
               onReset={handleReset}
@@ -293,7 +315,11 @@ function App() {
         selectedMobile={selectedMobile}
         selectedServices={selectedServices}
         selectedShopify={selectedShopify}
-        selectedUpload={selectedUpload}
+        
+        productInsertCount={productInsertCount}
+        aiPhotoProductCount={aiPhotoProductCount}
+        aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
+        
         selectedHosting={selectedHosting}
         selectedMaintenance={selectedMaintenance}
         oneTimeTotal={oneTimeTotal}

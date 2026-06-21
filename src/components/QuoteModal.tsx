@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Send, Copy, Mail, CheckCircle } from 'lucide-react';
 import { 
   PricingPackage, ServiceItem, ShopifyServiceItem, 
-  ProductUploadTier, HostingTier, MaintenanceTier, BRAND_INFO 
+  HostingTier, MaintenanceTier, BRAND_INFO 
 } from '../data/pricingData';
 
 interface QuoteModalProps {
@@ -14,7 +14,11 @@ interface QuoteModalProps {
   selectedMobile: PricingPackage | null;
   selectedServices: ServiceItem[];
   selectedShopify: ShopifyServiceItem[];
-  selectedUpload: ProductUploadTier | null;
+  
+  productInsertCount: number;
+  aiPhotoProductCount: number;
+  aiPhotoImagesPerProduct: number;
+  
   selectedHosting: HostingTier | null;
   selectedMaintenance: MaintenanceTier | null;
   
@@ -31,7 +35,11 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
   selectedMobile,
   selectedServices,
   selectedShopify,
-  selectedUpload,
+  
+  productInsertCount,
+  aiPhotoProductCount,
+  aiPhotoImagesPerProduct,
+  
   selectedHosting,
   selectedMaintenance,
   oneTimeTotal,
@@ -83,8 +91,14 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
       });
     }
 
-    if (selectedUpload) {
-      text += `• Catalog Upload: ${selectedUpload.range} (${selectedUpload.priceDisplay})\n`;
+    if (productInsertCount > 0) {
+      text += `• Product Data Entry: ${productInsertCount} products @ ₹40/product (${formattedCurrency(productInsertCount * 40)})\n`;
+    }
+
+    if (aiPhotoProductCount > 0) {
+      const extraImages = Math.max(0, aiPhotoImagesPerProduct - 2);
+      const cost = aiPhotoProductCount * (100 + extraImages * 40);
+      text += `• AI Product Photography: ${aiPhotoProductCount} products, ${aiPhotoImagesPerProduct} imgs/prod (${formattedCurrency(cost)})\n`;
     }
 
     if (selectedHosting) {
@@ -185,7 +199,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                 </label>
                 <input
                   id="modal_phone"
-                  type="tel"
+                  type="text"
                   required
                   placeholder="e.g. +91 99999 88888"
                   value={phone}
@@ -259,17 +273,27 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                   <span>{s.name}</span>
                   <span className="font-bold text-slate-800">{s.priceDisplay}</span>
                 </div>
-              ))}
+              )}
               {selectedShopify.map(s => (
                 <div key={s.id} className="flex justify-between py-2 text-slate-600">
                   <span>{s.name}</span>
                   <span className="font-bold text-slate-800">{s.priceDisplay}</span>
                 </div>
-              ))}
-              {selectedUpload && (
+              )}
+              {productInsertCount > 0 && (
                 <div className="flex justify-between py-2 text-slate-600">
-                  <span>Catalog: {selectedUpload.range}</span>
-                  <span className="font-bold text-slate-800">{selectedUpload.priceDisplay}</span>
+                  <span>Product Data Entry ({productInsertCount} items)</span>
+                  <span className="font-bold text-slate-800">{formattedCurrency(productInsertCount * 40)}</span>
+                </div>
+              )}
+              {aiPhotoProductCount > 0 && (
+                <div className="flex justify-between py-2 text-slate-600">
+                  <span>AI Product Photos ({aiPhotoProductCount} items, {aiPhotoImagesPerProduct} imgs/ea)</span>
+                  <span className="font-bold text-slate-800">
+                    {formattedCurrency(
+                      aiPhotoProductCount * (100 + Math.max(0, aiPhotoImagesPerProduct - 2) * 40)
+                    )}
+                  </span>
                 </div>
               )}
               {selectedHosting && (
