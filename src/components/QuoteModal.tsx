@@ -273,13 +273,13 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
                   <span>{s.name}</span>
                   <span className="font-bold text-slate-800">{s.priceDisplay}</span>
                 </div>
-              )}
+              ))}
               {selectedShopify.map(s => (
                 <div key={s.id} className="flex justify-between py-2 text-slate-600">
                   <span>{s.name}</span>
                   <span className="font-bold text-slate-800">{s.priceDisplay}</span>
                 </div>
-              )}
+              ))}
               {productInsertCount > 0 && (
                 <div className="flex justify-between py-2 text-slate-600">
                   <span>Product Data Entry ({productInsertCount} items)</span>

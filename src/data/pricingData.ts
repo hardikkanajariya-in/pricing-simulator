@@ -239,19 +239,13 @@ export const INDIVIDUAL_SERVICES: ServiceItem[] = [
   { id: "srv_ga", name: "Google Analytics Setup", price: 1500, priceDisplay: "₹1,500", category: "marketing" },
   { id: "srv_sc", name: "Search Console Setup", price: 1500, priceDisplay: "₹1,500", category: "marketing" },
   { id: "srv_seo", name: "Basic SEO Setup", price: 3000, priceDisplay: "₹3,000", category: "marketing" },
-  { id: "srv_blog", name: "Blog System", price: 5000, priceDisplay: "₹system" }, // system/other
+  { id: "srv_blog", name: "Blog System", price: 5000, priceDisplay: "₹5,000", category: "system" },
   { id: "srv_admin", name: "Admin Panel", price: 10000, priceDisplay: "₹10,000", category: "system" },
   { id: "srv_inv", name: "Inventory Management", price: 10000, priceDisplay: "₹10,000", category: "system" },
   { id: "srv_crm", name: "CRM Module", price: 15000, priceDisplay: "₹15,000", category: "system" },
   { id: "srv_lang", name: "Multi Language Support", price: 5000, priceDisplay: "₹5,000", category: "other" },
   { id: "srv_chatbot", name: "AI Chatbot Integration", price: 10000, priceDisplay: "₹10,000", category: "integration" }
-].map(item => {
-  // Fix the category type mapping for Blog System
-  if (item.id === "srv_blog") {
-    return { ...item, price: 5000, priceDisplay: "₹5,000", category: "system" as const };
-  }
-  return item;
-});
+];
 
 // Shopify Services
 export const SHOPIFY_SERVICES: ShopifyServiceItem[] = [
