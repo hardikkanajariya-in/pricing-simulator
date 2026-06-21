@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, MessageCircle, Globe, Github, Linkedin, MapPin } from 'lucide-react';
+import { Mail, MessageCircle, Globe, Github, Linkedin, MapPin, Twitter, Instagram, Facebook } from 'lucide-react';
 import { BRAND_INFO } from '../data/pricingData';
 
 export const Footer: React.FC = () => {
@@ -83,25 +83,58 @@ export const Footer: React.FC = () => {
           <h3 className="text-sm font-semibold text-white uppercase tracking-wider font-display">
             Connect
           </h3>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2.5">
             <a 
               href={BRAND_INFO.contacts.github} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
+              className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-all hover:scale-105"
               aria-label="GitHub"
             >
-              <Github className="w-5 h-5" />
+              <Github className="w-4.5 h-4.5" />
             </a>
             <a 
               href={BRAND_INFO.contacts.linkedin} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
+              className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-all hover:scale-105"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-4.5 h-4.5" />
             </a>
+            {BRAND_INFO.contacts.twitter && (
+              <a 
+                href={BRAND_INFO.contacts.twitter} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-all hover:scale-105"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-4.5 h-4.5" />
+              </a>
+            )}
+            {BRAND_INFO.contacts.instagram && (
+              <a 
+                href={BRAND_INFO.contacts.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-all hover:scale-105"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-4.5 h-4.5" />
+              </a>
+            )}
+            {BRAND_INFO.contacts.facebook && (
+              <a 
+                href={BRAND_INFO.contacts.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-700 transition-all hover:scale-105"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4.5 h-4.5" />
+              </a>
+            )}
           </div>
           <p className="text-[11px] text-slate-500 leading-tight">
             Consultations are free. Drop a message on WhatsApp to discuss project scopes and features.

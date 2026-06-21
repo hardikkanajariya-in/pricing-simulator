@@ -132,7 +132,7 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({
       return;
     }
     const text = encodeURIComponent(generateSummaryText());
-    const waUrl = `https://wa.me/919537166160?text=${text}`;
+    const waUrl = `${BRAND_INFO.contacts.whatsapp}?text=${text}`;
     window.open(waUrl, '_blank');
   };
 

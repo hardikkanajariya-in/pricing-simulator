@@ -59,12 +59,18 @@ export const BRAND_INFO = {
     "Gujarat Based Support"
   ],
   contacts: {
-    phone: "+919537166160", // Sample Gujarat phone number format, can be updated by user
-    whatsapp: "https://wa.me/919537166160",
-    email: "contact@hardikkanajariya.in",
+    phone: "+916353485415", 
+    whatsapp: "https://wa.me/916353485415",
+    email: "hkdevs@hardikkanajariya.in",
     website: "https://hardikkanajariya.in",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com"
+    github: "https://github.com/hardik-kanajariya",
+    linkedin: "https://www.linkedin.com/in/hardik-kanajariya/",
+    twitter: "https://x.com/hardik_web",
+    instagram: "https://www.instagram.com/kanajariyahardik/",
+    facebook: "https://www.facebook.com/profile.php?id=61580436523509",
+    pinterest: "https://in.pinterest.com/hardik_kanajariya",
+    reddit: "https://www.reddit.com/user/hardikKanajariya/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button",
+    devto: "https://dev.to/hardikkanajariya"
   }
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, DollarSign, Zap, Code, HeartHandshake, ArrowRight } from 'lucide-react';
+import { BRAND_INFO } from '../data/pricingData';
 
 interface HeroProps {
   onScrollToCalculator: () => void;
@@ -58,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <a
-              href="https://wa.me/919537166160?text=Hi%20Hardik,%20I%20am%20interested%20in%20building%20a%20project%20with%20you!"
+              href={`${BRAND_INFO.contacts.whatsapp}?text=Hi%20Hardik,%20I%20am%20interested%20in%20building%20a%20project%20with%20you!`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold px-8 py-4 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5"
