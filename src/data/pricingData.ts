@@ -8,53 +8,48 @@ export interface PricingPackage {
   description?: string;
 }
 
-export interface ServiceItem {
+export interface CoreCategory {
   id: string;
+  name: string;
+  description: string;
+  icon: string;
+  startingPrice: number;
+  baseTimelineDays: number;
+}
+
+export interface CorePackage {
+  id: string;
+  categoryId: string;
   name: string;
   price: number;
   priceDisplay: string;
-  category: 
-    | 'pages' 
-    | 'email' 
-    | 'pdf' 
-    | 'users' 
-    | 'business' 
-    | 'automation' 
-    | 'mobile_app' 
-    | 'play_store' 
-    | 'devops' 
-    | 'integrations' 
-    | 'shopify' 
-    | 'support';
-  description?: string;
-  features?: string[];
-  deliveryDays?: number;
-  complexity?: 'small' | 'medium' | 'large';
+  description: string;
+  deliveryDays: number;
+  confidence: 'high' | 'medium' | 'discovery';
+  deliverables: string[];
 }
 
-export interface ShopifyServiceItem {
+export interface Feature {
+  id: string;
+  name: string;
+  oneTimeCost: number;
+  monthlyCost?: number;
+  yearlyCost?: number;
+  deliveryDays: number;
+  complexity: 'small' | 'medium' | 'large';
+  category: string;
+  dependencies?: string[];
+  recommendedFor?: string[];
+  description: string;
+}
+
+export interface ThirdPartyService {
   id: string;
   name: string;
   price: number;
+  billing: 'monthly' | 'yearly' | 'one-time' | 'transactional';
   priceDisplay: string;
-  features?: string[];
-  description?: string;
-}
-
-export interface ProductUploadTier {
-  id: string;
-  range: string;
-  price: number;
-  priceDisplay: string;
-}
-
-export interface HostingTier {
-  id: string;
-  name: string;
-  price: number; // yearly
-  priceDisplay: string;
-  type: 'static' | 'dynamic' | 'vps';
-  features: string[];
+  description: string;
 }
 
 export interface MaintenanceTier {
@@ -66,16 +61,30 @@ export interface MaintenanceTier {
   features?: string[];
 }
 
+export interface LeadQuote {
+  quoteId: string;
+  clientName: string;
+  businessName?: string;
+  phone: string;
+  email: string;
+  leadStatus: 'new' | 'contacted' | 'proposal_sent' | 'won' | 'lost';
+  notes?: string;
+  followUpDate?: string;
+  createdAt: string;
+  selectedOptionsSummary: string;
+  totalCost: number;
+}
+
 // Brand Information
 export const BRAND_INFO = {
   name: "Hardik Kanajariya",
-  tagline: "Transparent Predefined-Module Web Solutions",
-  subheading: "Transparent Pricing & Service Catalog",
+  tagline: "SaaS-Grade Predefined-Module Estimation Engine",
+  subheading: "Interactive Software Cost Estimator",
   highlights: [
-    "Transparent Pricing",
-    "No Hidden Charges",
-    "Predefined Modules",
-    "Gujarat Native Support"
+    "Fixed-Module Transparency",
+    "No Hidden Coding Fees",
+    "Predefined Scope Deliverables",
+    "Direct Developer Communication"
   ],
   contacts: {
     phone: "+916353485415", 
@@ -93,588 +102,719 @@ export const BRAND_INFO = {
   }
 };
 
-// Website Packages
-export const WEBSITE_PACKAGES: PricingPackage[] = [
+// Core Categories (Step 1)
+export const CORE_CATEGORIES: CoreCategory[] = [
+  { id: "web", name: "Business Website", description: "Brochure websites, content blogs, portfolios, and inquiry forms.", icon: "LayoutGrid", startingPrice: 8000, baseTimelineDays: 5 },
+  { id: "ecommerce", name: "E-Commerce Website", description: "Online stores with product catalogs, shopping carts, and order management.", icon: "ShoppingBag", startingPrice: 30000, baseTimelineDays: 12 },
+  { id: "mobile", name: "Mobile Application", description: "Native or hybrid app listing platforms on Android & iOS devices.", icon: "Smartphone", startingPrice: 25000, baseTimelineDays: 14 },
+  { id: "desktop", name: "Desktop Application", description: "Stand-alone Windows utility executables working local or cloud-sync.", icon: "Monitor", startingPrice: 25000, baseTimelineDays: 14 },
+  { id: "shopify", name: "Shopify Store", description: "Setup configurations, customization, custom sections, or features.", icon: "Wrench", startingPrice: 7500, baseTimelineDays: 4 },
+  { id: "custom", name: "Custom Software", description: "Complex bespoke web applications, ERPs, client dashboards, or CRMs.", icon: "Briefcase", startingPrice: 25000, baseTimelineDays: 15 },
+  { id: "automation", name: "Automation Tool", description: "Scheduled data scripts, scraping jobs, notifications, or sheet sync logs.", icon: "Cpu", startingPrice: 2500, baseTimelineDays: 3 },
+  { id: "ai", name: "AI Solution", description: "Custom LLM integrations, conversational chatbots, or automation pipelines.", icon: "Brain", startingPrice: 10000, baseTimelineDays: 7 }
+];
+
+// Core Packages (Step 2)
+export const CORE_PACKAGES: CorePackage[] = [
+  // Website
   {
     id: "web_starter",
+    categoryId: "web",
     name: "Starter Website",
     price: 8000,
     priceDisplay: "₹8,000",
-    badge: "Best For Small Shops & Local Businesses",
-    description: " brochure-style web presence for small shops, local businesses, and service providers.",
-    features: [
-      "Home Page",
-      "About Page",
-      "Services Page",
-      "Contact Page",
-      "Gallery Page",
-      "Mobile Responsive Design",
-      "Contact Form",
-      "WhatsApp Button",
-      "Basic SEO",
-      "Vercel Hosting Setup",
-      "SSL Certificate"
-    ]
+    description: " brochure-style static pages for small local service shops.",
+    deliveryDays: 5,
+    confidence: "high",
+    deliverables: ["Up to 5 Pages", "Home Page", "About Page", "Services Page", "Contact Page", "Gallery Page", "Mobile Responsive Design", "Contact Form", "WhatsApp Button", "Basic SEO", "Vercel Hosting Setup", "SSL Certificate"]
   },
   {
     id: "web_business",
+    categoryId: "web",
     name: "Business Website",
     price: 15000,
     priceDisplay: "₹15,000",
-    badge: "Best for Growing Brands",
-    description: "Everything in Starter Website plus blog posts, Google Sheets CMS, and product catalog.",
-    features: [
-      "Blog System",
-      "Dynamic Content",
-      "Google Sheets CMS",
-      "Cloudinary Image Management",
-      "Unlimited Blog Posts",
-      "Product Catalog",
-      "SEO Friendly URLs",
-      "Search Functionality"
-    ]
+    description: "Dynamic pages containing Google Sheets CMS integrations and custom blog post support.",
+    deliveryDays: 10,
+    confidence: "high",
+    deliverables: ["Up to 15 Pages", "Everything in Starter Website", "Blog System", "Dynamic Content Integration", "Google Sheets CMS Control", "Cloudinary Image Delivery Cloud", "Unlimited Blog Articles Support", "Visual Product Catalog", "SEO Friendly URLs", "Search Functionality"]
   },
   {
     id: "web_advanced",
+    categoryId: "web",
     name: "Advanced Business Website",
     price: 25000,
     priceDisplay: "₹25,000",
-    badge: "Best For Growing Businesses",
-    description: "High-performance applications requiring dynamic databases, inquiry panels, and API integrations.",
-    features: [
-      "Admin Panel",
-      "Lead Management",
-      "Contact Inquiry Dashboard",
-      "User Management",
-      "Analytics Dashboard",
-      "Custom Database",
-      "API Integrations"
-    ]
-  }
-];
+    description: "High performance custom React applications with lead inquiries databases.",
+    deliveryDays: 15,
+    confidence: "medium",
+    deliverables: ["Everything in Business Website", "Secure Custom Admin Panel", "Lead Management DB", "Contact Inquiry Dashboard", "User Management Interface", "Analytics Dashboard graphs", "Custom Cloud Database", "API Integrations"]
+  },
 
-// E-Commerce Packages
-export const ECOMMERCE_PACKAGES: PricingPackage[] = [
+  // E-Commerce
   {
     id: "eco_basic",
+    categoryId: "ecommerce",
     name: "Basic E-Commerce",
     price: 30000,
     priceDisplay: "₹30,000",
-    badge: "Starter E-Shop",
-    description: "A professional online catalog with order management and customer controls.",
-    features: [
-      "Product Listing",
-      "Product Details",
-      "Categories",
-      "Search",
-      "Cart",
-      "Checkout Request",
-      "Admin Panel",
-      "Order Management",
-      "Customer Management"
-    ]
+    description: "Online catalog setup with manual checkout trigger notifications.",
+    deliveryDays: 12,
+    confidence: "high",
+    deliverables: ["Product Listing grid", "Product Details page", "Categories filtering", "Search inputs", "Shopping Cart", "WhatsApp Checkout Request", "Admin Panel control", "Order Management Logs", "Customer Profile List"]
   },
   {
     id: "eco_standard",
+    categoryId: "ecommerce",
     name: "Standard E-Commerce",
     price: 45000,
     priceDisplay: "₹45,000",
-    badge: "Most Popular",
-    description: "A complete online store setup with automated payments, customer registration, and tracking.",
-    features: [
-      "Payment Gateway",
-      "Customer Login",
-      "Customer Registration",
-      "Online Orders",
-      "Order Tracking",
-      "Coupon System",
-      "Invoice Generation",
-      "Email Notifications"
-    ]
+    description: "Complete online shop with automated checkout and payment portals.",
+    deliveryDays: 20,
+    confidence: "medium",
+    deliverables: ["Everything in Basic E-Commerce", "Payment Gateway Integration", "Customer Login auth", "Customer Registration portal", "Online Orders tracker", "Order Status tracking page", "Discount Coupon System", "Invoice PDF Generation", "Email Notifications alerts"]
   },
   {
     id: "eco_premium",
+    categoryId: "ecommerce",
     name: "Premium E-Commerce",
     price: 75000,
     priceDisplay: "₹75,000+",
-    badge: "Enterprise Ready",
-    description: "Advanced multi-staff marketplace or complex billing store with inventory management.",
-    features: [
-      "Inventory Management",
-      "GST Invoices",
-      "Advanced Reports",
-      "Multiple Staff Accounts",
-      "Vendor Support",
-      "Custom Features"
-    ]
-  }
-];
+    description: "Complex vendor store structures, inventory management, and invoice logs.",
+    deliveryDays: 30,
+    confidence: "discovery",
+    deliverables: ["Everything in Standard E-Commerce", "Inventory Management Ledger", "GST Invoice Calculations", "Advanced sales reports", "Multiple Staff Accounts", "Vendor Portal Support", "Custom features architecture"]
+  },
 
-// Mobile Application Packages
-export const MOBILE_PACKAGES: PricingPackage[] = [
+  // Mobile
   {
     id: "mob_basic",
-    name: "Basic App",
+    categoryId: "mobile",
+    name: "Basic Mobile App",
     price: 25000,
     priceDisplay: "₹25,000",
-    description: "Android application with API integration and push notifications.",
-    features: [
-      "Android Application",
-      "Up to 5 Screens",
-      "API Integration",
-      "Contact Forms",
-      "Push Notifications"
-    ]
+    description: "Android platform application with REST API connections.",
+    deliveryDays: 14,
+    confidence: "high",
+    deliverables: ["Android Application build", "Up to 5 Screens layouts", "REST API integration", "Contact Forms submit", "Push notifications integrations"]
   },
   {
     id: "mob_business",
+    categoryId: "mobile",
     name: "Business Application",
     price: 50000,
     priceDisplay: "₹50,000",
-    description: "Cross-platform authentication dashboard app for both Android and iOS.",
-    features: [
-      "Authentication",
-      "Dashboard",
-      "Admin APIs",
-      "Push Notifications",
-      "Android + iOS"
-    ]
+    description: "Android & iOS platform dashboard application with push alert features.",
+    deliveryDays: 25,
+    confidence: "medium",
+    deliverables: ["Cross-platform app (Android + iOS)", "User Authentication log", "User dashboard interface", "Admin panel control API", "Push notifications logs"]
   },
   {
     id: "mob_ecommerce",
+    categoryId: "mobile",
     name: "E-Commerce App",
     price: 75000,
     priceDisplay: "₹75,000",
-    description: "Full-featured shopping app with catalog, cart, and payments on Android + iOS.",
-    features: [
-      "Product Catalog",
-      "Cart",
-      "Orders",
-      "Payments",
-      "Customer Accounts",
-      "Wishlist",
-      "Android + iOS"
-    ]
-  }
-];
-
-// Individual Add-on Services
-export const INDIVIDUAL_SERVICES: ServiceItem[] = [
-  // 1. WEBSITE CONTENT & PAGE SERVICES
-  { 
-    id: "srv_page_static", 
-    name: "Additional Static Page", 
-    price: 500, 
-    priceDisplay: "₹500 / Page", 
-    category: "pages",
-    description: "Examples: About Us, Team, FAQ, Privacy Policy, Terms."
-  },
-  { 
-    id: "srv_page_dynamic", 
-    name: "Additional Dynamic Page", 
-    price: 2000, 
-    priceDisplay: "₹2,000 / Page", 
-    category: "pages",
-    description: "Examples: Blog Listing, Product Listing, Category Page, Search Page."
-  },
-  { 
-    id: "srv_cf", 
-    name: "Contact Form Module", 
-    price: 1000, 
-    priceDisplay: "₹1,000", 
-    category: "pages",
-    features: ["Form Creation", "Validation", "Email Delivery"]
-  },
-  { 
-    id: "srv_cf_adv", 
-    name: "Advanced Contact Form", 
-    price: 3000, 
-    priceDisplay: "₹3,050", // price display helper, let's keep exact 3000
-    category: "pages",
-    features: ["Multiple Fields", "File Uploads", "Database Storage"]
+    description: "Native store application including catalogs, carts, and gateways.",
+    deliveryDays: 35,
+    confidence: "discovery",
+    deliverables: ["Cross-platform store (Android + iOS)", "Product catalog list", "Shopping Cart", "Order checkout flows", "Online payments modules", "Customer Accounts list", "Wishlist database"]
   },
 
-  // 2. EMAIL & COMMUNICATION
-  { 
-    id: "smtp_setup", 
-    name: "SMTP Setup", 
-    price: 2000, 
-    priceDisplay: "₹2,000", 
-    category: "email",
-    description: "Supported Providers: Gmail, Zoho, Outlook, Hostinger."
+  // Desktop
+  {
+    id: "desk_basic",
+    categoryId: "desktop",
+    name: "Electron Desktop App",
+    price: 25000,
+    priceDisplay: "Starting ₹25,000",
+    description: "Standard offline desktop utility for Windows platforms.",
+    deliveryDays: 14,
+    confidence: "high",
+    deliverables: ["Windows Installer release", "Local Database file system", "Basic reports configuration"]
   },
-  { 
-    id: "srv_email_tmpl", 
-    name: "Email Templates", 
-    price: 500, 
-    priceDisplay: "₹500 / Template", 
-    category: "email",
-    description: "Examples: Welcome Email, Order Confirmation, Contact Request."
-  },
-  { 
-    id: "srv_newsletter", 
-    name: "Newsletter System", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "email"
-  },
-
-  // 3. PDF & DOCUMENT SYSTEMS
-  { 
-    id: "srv_pdf_gen", 
-    name: "PDF Generation", 
-    price: 3000, 
-    priceDisplay: "₹3,000", 
-    category: "pdf",
-    description: "Examples: Invoice PDF, Quote PDF, Report PDF."
-  },
-  { 
-    id: "srv_pdf_dyn", 
-    name: "Dynamic PDF System", 
-    price: 7500, 
-    priceDisplay: "₹7,500", 
-    category: "pdf",
-    features: ["Templates", "Branding", "Database Data"]
+  {
+    id: "desk_adv",
+    categoryId: "desktop",
+    name: "Advanced Desktop App",
+    price: 50000,
+    priceDisplay: "₹50,000+",
+    description: "Multi-user networked desktop systems with cloud backups.",
+    deliveryDays: 30,
+    confidence: "discovery",
+    deliverables: ["Multi-user auth logs", "Cloud synchronization script", "Direct local printing integration", "Advanced CSV export tools"]
   },
 
-  // 4. USER MANAGEMENT
-  { 
-    id: "srv_auth", 
-    name: "Authentication System", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "users",
-    features: ["Login", "Registration", "Forgot Password"]
-  },
-  { 
-    id: "srv_user_profile", 
-    name: "User Profile System", 
-    price: 3000, 
-    priceDisplay: "₹3,000", 
-    category: "users"
-  },
-  { 
-    id: "srv_roles", 
-    name: "Role Based Permissions", 
-    price: 7500, 
-    priceDisplay: "₹7,500", 
-    category: "users",
-    features: ["Admin Access", "Manager Portal", "Staff Control"]
-  },
-
-  // 5. BUSINESS MODULES
-  { 
-    id: "srv_crm", 
-    name: "CRM System", 
-    price: 15000, 
-    priceDisplay: "₹15,000", 
-    category: "business" 
-  },
-  { 
-    id: "srv_inv", 
-    name: "Inventory System", 
-    price: 10000, 
-    priceDisplay: "₹10,000", 
-    category: "business" 
-  },
-  { 
-    id: "srv_invoice_sys", 
-    name: "Invoice System", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "business" 
-  },
-  { 
-    id: "srv_lead_mgr", 
-    name: "Lead Management", 
-    price: 7500, 
-    priceDisplay: "₹7,500", 
-    category: "business" 
-  },
-  { 
-    id: "srv_booking", 
-    name: "Appointment Booking", 
-    price: 7500, 
-    priceDisplay: "₹7,500", 
-    category: "business" 
-  },
-  { 
-    id: "srv_ticket", 
-    name: "Ticket Support System", 
-    price: 10000, 
-    priceDisplay: "₹10,000", 
-    category: "business" 
-  },
-
-  // 6. AUTOMATION & SCRIPTING
-  { 
-    id: "srv_auto_basic", 
-    name: "Basic Automation Script", 
-    price: 2500, 
-    priceDisplay: "₹2,500", 
-    category: "automation",
-    description: "Examples: CSV Processing, File Conversion, Data Cleanup."
-  },
-  { 
-    id: "srv_auto_adv", 
-    name: "Advanced Automation Script", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "automation",
-    description: "Examples: API Automation, Email Automation, Scheduled Tasks."
-  },
-  { 
-    id: "srv_auto_workflow", 
-    name: "Business Workflow Automation", 
-    price: 10000, 
-    priceDisplay: "₹10,000+", 
-    category: "automation",
-    description: "Examples: Order Processing, Invoice Generation, CRM Automation."
-  },
-  { 
-    id: "srv_desktop_electron", 
-    name: "Electron Desktop Application", 
-    price: 25000, 
-    priceDisplay: "Starting ₹25,000", 
-    category: "automation",
-    features: ["Windows Installer", "Local Database", "Basic Features"]
-  },
-  { 
-    id: "srv_desktop_adv", 
-    name: "Advanced Desktop Application", 
-    price: 50000, 
-    priceDisplay: "₹50,000+", 
-    category: "automation",
-    features: ["Multi User Support", "Cloud Sync", "Reports", "Direct Printing"]
-  },
-
-  // 7. MOBILE APPLICATION SERVICES
-  { 
-    id: "srv_mob_android", 
-    name: "Android Application Only", 
-    price: 25000, 
-    priceDisplay: "Starting ₹25,000", 
-    category: "mobile_app" 
-  },
-  { 
-    id: "srv_mob_ios", 
-    name: "iOS Application Addition", 
-    price: 10000, 
-    priceDisplay: "Additional ₹10,000", 
-    category: "mobile_app",
-    description: "Applicable if Android application already exists."
-  },
-  { 
-    id: "srv_push", 
-    name: "Push Notifications", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "mobile_app" 
-  },
-  { 
-    id: "srv_app_release", 
-    name: "App Update Release", 
-    price: 2000, 
-    priceDisplay: "₹2,000 / Release", 
-    category: "mobile_app" 
-  },
-
-  // 8. PLAY STORE SERVICES
-  { 
-    id: "srv_play_setup", 
-    name: "Google Play Store Account Setup", 
-    price: 2500, 
-    priceDisplay: "₹2,500", 
-    category: "play_store",
-    description: "Client pays Google console fees ($25) separately."
-  },
-  { 
-    id: "srv_play_publish", 
-    name: "Play Store Publishing", 
-    price: 3000, 
-    priceDisplay: "₹3,000", 
-    category: "play_store",
-    features: ["Build Generation", "Asset Uploads", "Screenshots", "Listing Settings"]
-  },
-  { 
-    id: "srv_play_maint", 
-    name: "Play Store Maintenance", 
-    price: 500, 
-    priceDisplay: "₹500 / month", 
-    category: "play_store",
-    features: ["Minor Updates", "Version Uploads"]
-  },
-  { 
-    id: "srv_app_publish", 
-    name: "App Store Publishing", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "play_store",
-    description: "Client pays Apple developer fees ($99/year) separately."
-  },
-  { 
-    id: "srv_app_maint", 
-    name: "App Store Maintenance", 
-    price: 1000, 
-    priceDisplay: "₹1,000 / month", 
-    category: "play_store" 
-  },
-
-  // 9. SERVER & DEVOPS
-  { 
-    id: "srv_vps_setup", 
-    name: "VPS Setup", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "devops",
-    features: ["Ubuntu Server Configuration", "Firewall Rules", "SSL setup", "Nginx Server Block"]
-  },
-  { 
-    id: "srv_vps_migration", 
-    name: "VPS Migration", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "devops" 
-  },
-  { 
-    id: "srv_cicd", 
-    name: "CI/CD Setup", 
-    price: 5000, 
-    priceDisplay: "₹5,000", 
-    category: "devops",
-    features: ["GitHub Actions Config", "Auto Deployments Setup"]
-  },
-  { id: "srv_domain_setup", name: "Domain Setup", price: 500, priceDisplay: "₹500", category: "devops" },
-  { id: "srv_dns_config", name: "DNS Configuration", price: 500, priceDisplay: "₹500", category: "devops" },
-  { id: "srv_ssl_setup", name: "SSL Setup", price: 500, priceDisplay: "₹500", category: "devops" },
-  { id: "srv_email_server", name: "Email Server Setup", price: 3000, priceDisplay: "₹3,000", category: "devops" },
-
-  // 10. API INTEGRATIONS
-  { id: "srv_api_pg", name: "Payment Gateway", price: 5000, priceDisplay: "₹5,000", category: "integrations" },
-  { id: "srv_api_logistics", name: "Logistics Provider", price: 5000, priceDisplay: "₹5,000", category: "integrations" },
-  { id: "srv_api_gmaps", name: "Google Maps", price: 3000, priceDisplay: "₹3,000", category: "integrations" },
-  { id: "srv_api_whatsapp", name: "WhatsApp API", price: 10000, priceDisplay: "₹10,000", category: "integrations" },
-  { id: "srv_api_sms", name: "SMS API", price: 5000, priceDisplay: "₹5,000", category: "integrations" },
-  { id: "srv_api_msgraph", name: "Microsoft Graph", price: 15000, priceDisplay: "₹15,000", category: "integrations" },
-  { 
-    id: "srv_api_thirdparty", 
-    name: "Third Party API Integration", 
-    price: 5000, 
-    priceDisplay: "₹5,000+", 
-    category: "integrations",
-    description: "Depends on endpoint complexity and documentation."
-  },
-
-  // 11. SHOPIFY ADDITIONAL SERVICES
-  { id: "srv_shop_import", name: "Product Import", price: 1000, priceDisplay: "₹1,000 - ₹7,500", category: "shopify" },
-  { id: "srv_shop_collection", name: "Collection Setup", price: 1000, priceDisplay: "₹1,000", category: "shopify" },
-  { id: "srv_shop_shipping", name: "Shipping Rules Setup", price: 2000, priceDisplay: "₹2,000", category: "shopify" },
-  { id: "srv_shop_discount", name: "Discount Configuration", price: 2000, priceDisplay: "₹2,000", category: "shopify" },
-  { id: "srv_shop_section", name: "Custom Shopify Section", price: 3000, priceDisplay: "₹3,000", category: "shopify" },
-  { id: "srv_shop_appfeat", name: "Custom Shopify App Feature", price: 5000, priceDisplay: "₹5,000+", category: "shopify" },
-
-  // 12. MAINTENANCE & SUPPORT
-  { id: "srv_support_emergency", name: "Emergency Support", price: 1000, priceDisplay: "₹1,000 / hour", category: "support" },
-  { id: "srv_support_bugfix", name: "Bug Fixing", price: 500, priceDisplay: "₹500 / hour", category: "support" },
-  { 
-    id: "srv_support_consultation", 
-    name: "Consultation Call", 
-    price: 500, 
-    priceDisplay: "₹500 / 30 Minutes", 
-    category: "support",
-    description: "Free if the project is awarded."
-  },
-  { id: "srv_support_training", name: "Training Session", price: 1000, priceDisplay: "₹1,000 / hour", category: "support" }
-];
-
-// Adjust advanced form display price
-INDIVIDUAL_SERVICES[3].price = 3000;
-
-// Shopify Services
-export const SHOPIFY_SERVICES: ShopifyServiceItem[] = [
+  // Shopify
   {
     id: "shop_setup",
+    categoryId: "shopify",
     name: "Shopify Store Setup",
     price: 7500,
     priceDisplay: "₹7,500",
-    features: [
-      "Theme Installation",
-      "Store Configuration",
-      "Payment Setup",
-      "Shipping Setup",
-      "Domain Setup",
-      "Basic Store Settings"
-    ]
+    description: "Setup configurations, shipping settings, and domain bindings.",
+    deliveryDays: 4,
+    confidence: "high",
+    deliverables: ["Theme Installation & Activation", "Store setup (settings, locations)", "Shipping Setup & Rates", "Payment Gateway Gateway setup", "Domain binding configuration"]
   },
   {
     id: "shop_custom",
+    categoryId: "shopify",
     name: "Shopify Theme Customization",
-    price: 10000, // Starting price
-    priceDisplay: "₹10,000 - ₹25,000",
-    description: "Depends On: Number Of Pages, Design Complexity, Custom Sections"
+    price: 15000,
+    priceDisplay: "₹10,000 – ₹25,000",
+    description: "Editing theme architectures and injecting custom landing sections.",
+    deliveryDays: 8,
+    confidence: "medium",
+    deliverables: ["Custom template pages", "Liquid section code configurations", "Design adaptation styling", "Basic app installations"]
   },
   {
     id: "shop_dev",
-    name: "Shopify Custom Theme Development",
-    price: 40000, // Starting price
+    categoryId: "shopify",
+    name: "Shopify Custom Theme Dev",
+    price: 40000,
     priceDisplay: "Starting From ₹40,000",
-    features: [
-      "Custom Design",
-      "Custom Sections",
-      "Responsive Layout",
-      "Theme Architecture"
+    description: "Designing bespoke Shopify store layouts from Figma mockups.",
+    deliveryDays: 18,
+    confidence: "discovery",
+    deliverables: ["Bespoke layout design", "Responsive custom liquid code blocks", "SEO Schema mappings", "Custom product configurations page"]
+  },
+
+  // Custom Software
+  {
+    id: "cust_mvp",
+    categoryId: "custom",
+    name: "Basic Custom MVP",
+    price: 25000,
+    priceDisplay: "Starting ₹25,000",
+    description: "Quick-to-market web portals with database tables and operations pipelines.",
+    deliveryDays: 15,
+    confidence: "medium",
+    deliverables: ["MVP functional dashboard", "Database structures setup", "Dynamic CRUD inputs", "API controller hooks"]
+  },
+  {
+    id: "cust_enterprise",
+    categoryId: "custom",
+    name: "Enterprise Software System",
+    price: 60000,
+    priceDisplay: "₹60,000+",
+    description: "Complex dashboards, automated triggers, audits logs, and analytics.",
+    deliveryDays: 30,
+    confidence: "discovery",
+    deliverables: ["Advanced permissions groups", "Cloud database configurations", "Business operations pipeline automations", "Metrics visualizations charts"]
+  },
+
+  // Automation Tool
+  {
+    id: "auto_basic",
+    categoryId: "automation",
+    name: "Basic Automation Script",
+    price: 2500,
+    priceDisplay: "₹2,500",
+    description: "Simple server scripts, CSV formatters, or file conversions.",
+    deliveryDays: 3,
+    confidence: "high",
+    deliverables: ["Single automation script file", "CSV/XLSX processing parser", "Email/API notification alert triggers"]
+  },
+  {
+    id: "auto_adv",
+    categoryId: "automation",
+    name: "Advanced Automation Tool",
+    price: 5000,
+    priceDisplay: "₹5,000",
+    description: "Server tasks, scraping engines, or third-party integrations.",
+    deliveryDays: 6,
+    confidence: "medium",
+    deliverables: ["Cron job script logs", "Third-party API data pipelines", "Web scraping script engines", "Database update schedules"]
+  },
+  {
+    id: "auto_workflow",
+    categoryId: "automation",
+    name: "Workflow Automation system",
+    price: 10000,
+    priceDisplay: "Starting ₹10,000",
+    description: "Complete order processing sync pipelines and CRM triggers.",
+    deliveryDays: 12,
+    confidence: "discovery",
+    deliverables: ["Full CRM sync pipelines", "Multiple step tasks loops", "Automated billing logs", "Error fallback alerting modules"]
+  },
+
+  // AI Solution
+  {
+    id: "ai_chatbot_plan",
+    categoryId: "ai",
+    name: "AI Support Chatbot Setup",
+    price: 10000,
+    priceDisplay: "₹10,000",
+    description: "Setup customized support chatbots connected to knowledge bases.",
+    deliveryDays: 7,
+    confidence: "medium",
+    deliverables: ["Interactive chat widget UI", "OpenAI / Claude API vector indexing", "Company profile training prompt", "Lead generation capture pipeline"]
+  },
+  {
+    id: "ai_workflow",
+    categoryId: "ai",
+    name: "AI Workflow Integration",
+    price: 25000,
+    priceDisplay: "₹25,000+",
+    description: "Automatic text processing summaries and AI classification triggers.",
+    deliveryDays: 15,
+    confidence: "discovery",
+    deliverables: ["LLM classification scripts", "Automated text summarize pipelines", "Data enrichment scripting loops", "Structured JSON output validation"]
+  }
+];
+
+// Add-on Features (Step 3)
+export const FEATURES: Feature[] = [
+  {
+    id: "feat_auth",
+    name: "Authentication System",
+    oneTimeCost: 5000,
+    deliveryDays: 3,
+    complexity: "medium",
+    category: "Security & Users",
+    description: "User login, registration, password recovery, and secure sessions.",
+    recommendedFor: ["web", "ecommerce", "mobile", "desktop", "custom"]
+  },
+  {
+    id: "feat_user_profile",
+    name: "User Profile System",
+    oneTimeCost: 3000,
+    deliveryDays: 2,
+    complexity: "small",
+    category: "Security & Users",
+    dependencies: ["feat_auth"],
+    description: "User profiles, avatar upload, and editable account details.",
+    recommendedFor: ["web", "mobile", "custom"]
+  },
+  {
+    id: "feat_roles",
+    name: "Role-Based Access Control",
+    oneTimeCost: 7500,
+    deliveryDays: 4,
+    complexity: "large",
+    category: "Security & Users",
+    dependencies: ["feat_auth"],
+    description: "Permissions for Admin, Manager, and Staff roles with custom views.",
+    recommendedFor: ["custom", "desktop"]
+  },
+  {
+    id: "feat_admin_panel",
+    name: "Admin Dashboard",
+    oneTimeCost: 10000,
+    deliveryDays: 5,
+    complexity: "medium",
+    category: "Control Panels",
+    description: "Secure management interface for content, metrics, configurations, and users.",
+    recommendedFor: ["web", "ecommerce", "custom"]
+  },
+  {
+    id: "feat_crm",
+    name: "CRM System",
+    oneTimeCost: 15000,
+    deliveryDays: 7,
+    complexity: "large",
+    category: "Business Tools",
+    dependencies: ["feat_auth"],
+    description: "Lead tracking, pipeline tracking, client interaction logs, and summaries.",
+    recommendedFor: ["custom", "web"]
+  },
+  {
+    id: "feat_inventory",
+    name: "Inventory System",
+    oneTimeCost: 10000,
+    deliveryDays: 5,
+    complexity: "medium",
+    category: "Business Tools",
+    description: "Real-time stock level monitoring, re-order notifications, and suppliers.",
+    recommendedFor: ["ecommerce", "custom", "shopify"]
+  },
+  {
+    id: "feat_invoice_sys",
+    name: "Invoice Generation System",
+    oneTimeCost: 5000,
+    deliveryDays: 3,
+    complexity: "medium",
+    category: "Business Tools",
+    description: "Automatic generation of professional PDFs and invoicing logs.",
+    recommendedFor: ["ecommerce", "custom"]
+  },
+  {
+    id: "feat_lead_mgr",
+    name: "Lead Management System",
+    oneTimeCost: 7500,
+    deliveryDays: 4,
+    complexity: "medium",
+    category: "Business Tools",
+    description: "Inquiry pipelines, automatic status transitions, and follow-ups.",
+    recommendedFor: ["web", "custom"]
+  },
+  {
+    id: "feat_booking",
+    name: "Appointment Booking Calendar",
+    oneTimeCost: 7500,
+    deliveryDays: 4,
+    complexity: "medium",
+    category: "Business Tools",
+    description: "Interactive scheduling, client slots selection, and automated alerts.",
+    recommendedFor: ["web", "custom"]
+  },
+  {
+    id: "feat_ticket_support",
+    name: "Helpdesk Ticket System",
+    oneTimeCost: 10000,
+    deliveryDays: 5,
+    complexity: "medium",
+    category: "Business Tools",
+    dependencies: ["feat_auth"],
+    description: "Support ticket submissions, chat replies, and priority queues.",
+    recommendedFor: ["custom", "web"]
+  },
+  {
+    id: "feat_payment_gateway",
+    name: "Payment Gateway Integration",
+    oneTimeCost: 5000,
+    deliveryDays: 2,
+    complexity: "small",
+    category: "Integrations",
+    description: "Secure gateway setups for Razorpay, Cashfree, PhonePe, or Stripe.",
+    recommendedFor: ["ecommerce", "mobile", "custom", "shopify"]
+  },
+  {
+    id: "feat_logistics",
+    name: "Logistics API Integration",
+    oneTimeCost: 5000,
+    deliveryDays: 3,
+    complexity: "medium",
+    category: "Integrations",
+    description: "Real-time shipping setup with Shiprocket, Delhivery, or Pickrr.",
+    recommendedFor: ["ecommerce", "custom", "shopify"]
+  },
+  {
+    id: "feat_whatsapp",
+    name: "WhatsApp API Alerts",
+    oneTimeCost: 2000,
+    deliveryDays: 1,
+    complexity: "small",
+    category: "Integrations",
+    description: "Send direct notifications, alerts, and OTPs on client WhatsApp.",
+    recommendedFor: ["web", "ecommerce", "custom", "shopify"]
+  },
+  {
+    id: "feat_sms_otp",
+    name: "SMS OTP System",
+    oneTimeCost: 5000,
+    deliveryDays: 2,
+    complexity: "small",
+    category: "Integrations",
+    description: "Multi-factor safety utilizing OTP checks (SMS credits extra).",
+    recommendedFor: ["web", "ecommerce", "mobile", "custom"]
+  },
+  {
+    id: "feat_chatbot",
+    name: "AI Support Chatbot",
+    oneTimeCost: 10000,
+    deliveryDays: 4,
+    complexity: "medium",
+    category: "AI Solutions",
+    description: "AI-based instant support chatbot trained on your company profile.",
+    recommendedFor: ["web", "custom", "ai"]
+  },
+  {
+    id: "feat_multilang",
+    name: "Multi-Language (Base 2)",
+    oneTimeCost: 5000,
+    deliveryDays: 3,
+    complexity: "medium",
+    category: "Other Extras",
+    description: "Support localization. Base covers 2 languages (e.g. Gujarati & English).",
+    recommendedFor: ["web", "custom", "mobile"]
+  },
+  {
+    id: "feat_pdf_gen",
+    name: "PDF Generation Engine",
+    oneTimeCost: 3000,
+    deliveryDays: 2,
+    complexity: "small",
+    category: "Other Extras",
+    description: "Generate static documents or simple template reports (e.g. receipts).",
+    recommendedFor: ["web", "custom", "desktop"]
+  },
+  {
+    id: "feat_dyn_pdf",
+    name: "Dynamic PDF Engine",
+    oneTimeCost: 7500,
+    deliveryDays: 4,
+    complexity: "medium",
+    category: "Other Extras",
+    dependencies: ["feat_pdf_gen"],
+    description: "Heavy database-populated PDF generation (e.g. custom visual reports).",
+    recommendedFor: ["custom", "desktop"]
+  },
+  {
+    id: "feat_blog",
+    name: "SEO Blog System",
+    oneTimeCost: 5000,
+    deliveryDays: 3,
+    complexity: "small",
+    category: "Control Panels",
+    description: "Publish SEO-optimized articles and dynamic blog categories.",
+    recommendedFor: ["web", "custom"]
+  },
+  {
+    id: "feat_push_notif",
+    name: "Push Notification System",
+    oneTimeCost: 5000,
+    deliveryDays: 2,
+    complexity: "small",
+    category: "Integrations",
+    description: "Real-time alerts triggered on client browsers and phones.",
+    recommendedFor: ["mobile", "web", "custom"]
+  }
+];
+
+// Third Party Services (Step 4)
+export const THIRD_PARTY_SERVICES: ThirdPartyService[] = [
+  { id: "tp_host_static", name: "Vercel Static Hosting", price: 2500, billing: "yearly", priceDisplay: "₹2,500/year", description: "Hosting for static sites (HTML, React, AstroJS) with SSL." },
+  { id: "tp_host_dynamic", name: "VPS Cloud Hosting", price: 5000, billing: "yearly", priceDisplay: "₹5,000/year", description: "Database hosting for Next.js, APIs, and Node backends." },
+  { id: "tp_domain", name: "Domain Name (.com / .in)", price: 1000, billing: "yearly", priceDisplay: "₹1,000/year", description: "Custom web address registration." },
+  { id: "tp_cloudinary", name: "Cloudinary Assets Storage", price: 1500, billing: "yearly", priceDisplay: "₹1,500/year", description: "Storage for images, media assets, and fast deliveries." },
+  { id: "tp_workspace", name: "Google Workspace Email", price: 600, billing: "monthly", priceDisplay: "₹600/month", description: "Professional business email account (info@yourcompany.com)." },
+  { id: "tp_sms", name: "SMS OTP Gateway Credits", price: 1000, billing: "one-time", priceDisplay: "₹1,000 starting", description: "Prepaid SMS gateway credits for verification OTPs." },
+  { id: "tp_play_store", name: "Google Play Developer Account", price: 2500, billing: "one-time", priceDisplay: "₹2,500 (one-time)", description: "Developer console registration required to publish Android apps." },
+  { id: "tp_apple_store", name: "Apple Developer Program License", price: 9000, billing: "yearly", priceDisplay: "₹9,000/year", description: "Developer console fee ($99 USD/yr) required for iOS apps." }
+];
+
+// Support Options (Step 5)
+export const SUPPORT_TIERS: MaintenanceTier[] = [
+  { id: "maint_none", name: "No Support Plan", price: 0, priceDisplay: "₹0/month", billingPeriod: "month", features: ["No active updates", "Self-managed backups"] },
+  { id: "maint_basic", name: "Basic Support Plan", price: 500, priceDisplay: "₹500/month", billingPeriod: "month", features: ["Monthly Database Backups", "Core Security Patching", "Standard Email Support"] },
+  { id: "maint_standard", name: "Standard Support Plan", price: 1000, priceDisplay: "₹1,000/month", billingPeriod: "month", features: ["Weekly Database Backups", "Core & Plugin Security updates", "Priority WhatsApp/Slack Support"] },
+  { id: "maint_premium", name: "Premium Support Plan", price: 2500, priceDisplay: "₹2,500/month", billingPeriod: "month", features: ["Daily Database Backups", "SEO & Page Speed Audits", "24/7 Server Uptime Monitoring", "Minor Layout/Design tweaks"] }
+];
+
+// 13 Project Type Presets
+export interface ProjectPreset {
+  id: string;
+  name: string;
+  icon: string;
+  categoryId: string;
+  packageId: string;
+  featureIds: string[];
+  infrastructureIds: string[];
+  supportId: string;
+  expectedBenefits: string[];
+}
+
+export const PROJECT_TYPE_PRESETS: ProjectPreset[] = [
+  {
+    id: "preset_lead_gen",
+    name: "Lead Generation Website",
+    icon: "Megaphone",
+    categoryId: "web",
+    packageId: "web_business",
+    featureIds: ["feat_cf", "feat_lead_mgr", "feat_whatsapp"],
+    infrastructureIds: ["tp_host_static", "tp_domain"],
+    supportId: "maint_basic",
+    expectedBenefits: [
+      "Better Google Search Visibility (SEO)",
+      "Instant WhatsApp inquiry capture",
+      "Lead spreadsheet tracking logs",
+      "Dynamic service details publishing"
     ]
   },
   {
-    id: "shop_feat",
-    name: "Shopify Custom Features",
-    price: 5000, // Starting price
-    priceDisplay: "Starting Price: ₹5,000",
-    description: "Examples: Bundle System, Product Personalization, Custom Cart, Custom Checkout Logic, Product Configurator"
-  }
-];
-
-// Product Upload Tier Pricing
-export const PRODUCT_UPLOAD_TIERS: ProductUploadTier[] = [
-  { id: "upload_50", range: "1 - 50 Products", price: 1000, priceDisplay: "₹1,000" },
-  { id: "upload_200", range: "51 - 200 Products", price: 3000, priceDisplay: "₹3,000" },
-  { id: "upload_500", range: "201 - 500 Products", price: 7500, priceDisplay: "₹7,500" },
-  { id: "upload_more", range: "501+ Products", price: 0, priceDisplay: "Custom Quote" }
-];
-
-// Hosting Section
-export const HOSTING_OPTIONS: HostingTier[] = [
-  { 
-    id: "host_static", 
-    name: "Static Website Hosting", 
-    price: 2500, 
-    priceDisplay: "₹2,500/year", 
-    type: "static",
-    features: ["Hosting", "SSL", "Deployments"]
+    id: "preset_company_web",
+    name: "Company Website",
+    icon: "Briefcase",
+    categoryId: "web",
+    packageId: "web_business",
+    featureIds: ["feat_cf", "feat_blog", "feat_whatsapp"],
+    infrastructureIds: ["tp_host_static", "tp_domain", "tp_workspace"],
+    supportId: "maint_basic",
+    expectedBenefits: [
+      "Professional brand presence",
+      "Direct email addresses for business cards",
+      "Publish company news and announcements",
+      "Clear call-to-action capture buttons"
+    ]
   },
-  { 
-    id: "host_dynamic", 
-    name: "Dynamic Website Hosting", 
-    price: 5000, 
-    priceDisplay: "₹5,000/year", 
-    type: "dynamic",
-    features: ["Database", "Hosting", "Deployments"]
+  {
+    id: "preset_portfolio",
+    name: "Portfolio Website",
+    icon: "LayoutGrid",
+    categoryId: "web",
+    packageId: "web_starter",
+    featureIds: [],
+    infrastructureIds: ["tp_host_static", "tp_domain"],
+    supportId: "maint_none",
+    expectedBenefits: [
+      "Showcase project images and details",
+      "Super fast edge-speed loading",
+      "Professional bio representation",
+      "Contact submission email forwards"
+    ]
   },
-  { 
-    id: "host_vps", 
-    name: "Managed VPS Hosting", 
-    price: 10000, 
-    priceDisplay: "₹10,000/year", 
-    type: "vps",
-    features: ["Server Monitoring", "Security Updates", "Deployments"]
+  {
+    id: "preset_ecommerce_store",
+    name: "E-Commerce Store",
+    icon: "ShoppingBag",
+    categoryId: "ecommerce",
+    packageId: "eco_standard",
+    featureIds: ["feat_payment_gateway", "feat_logistics", "feat_whatsapp", "feat_inventory"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain", "tp_cloudinary"],
+    supportId: "maint_standard",
+    expectedBenefits: [
+      "Accept digital cards, UPI, net banking",
+      "Automated logistics calculations",
+      "Send dispatch alerts on WhatsApp",
+      "Dynamic catalog product filtering"
+    ]
+  },
+  {
+    id: "preset_marketplace",
+    name: "Marketplace",
+    icon: "Layers", // mapped in icon routing
+    categoryId: "ecommerce",
+    packageId: "eco_premium",
+    featureIds: ["feat_payment_gateway", "feat_logistics", "feat_roles", "feat_inventory", "feat_invoice_sys"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain", "tp_cloudinary"],
+    supportId: "maint_premium",
+    expectedBenefits: [
+      "Multi-vendor portal dashboards",
+      "Automated vendor commission tracking",
+      "Automated GST invoice generation",
+      "Advanced customer management tools"
+    ]
+  },
+  {
+    id: "preset_crm_sys",
+    name: "CRM System",
+    icon: "Users",
+    categoryId: "custom",
+    packageId: "cust_mvp",
+    featureIds: ["feat_crm", "feat_auth", "feat_roles"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain"],
+    supportId: "maint_standard",
+    expectedBenefits: [
+      "Centralized customer records database",
+      "Task schedules and follow-up alerts",
+      "Sales metrics dashboards",
+      "Different access control for sales staff"
+    ]
+  },
+  {
+    id: "preset_erp_sys",
+    name: "ERP System",
+    icon: "Settings",
+    categoryId: "custom",
+    packageId: "cust_enterprise",
+    featureIds: ["feat_auth", "feat_roles", "feat_inventory", "feat_crm", "feat_invoice_sys", "feat_dyn_pdf"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain"],
+    supportId: "maint_premium",
+    expectedBenefits: [
+      "Unify all company metrics and transactions",
+      "Automate generation of staff billing logs",
+      "Full cloud security backups",
+      "Inventory alerts tied with sales registers"
+    ]
+  },
+  {
+    id: "preset_inventory_sys",
+    name: "Inventory System",
+    icon: "Package",
+    categoryId: "custom",
+    packageId: "cust_mvp",
+    featureIds: ["feat_inventory", "feat_auth", "feat_roles"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain"],
+    supportId: "maint_standard",
+    expectedBenefits: [
+      "Stock inventory ledger databases",
+      "Low quantity auto notification warnings",
+      "Supplier ledger balances lists",
+      "Barcode scanning readiness support"
+    ]
+  },
+  {
+    id: "preset_mobile_app",
+    name: "Mobile App",
+    icon: "Smartphone",
+    categoryId: "mobile",
+    packageId: "mob_business",
+    featureIds: ["feat_push_notif", "feat_auth"],
+    infrastructureIds: ["tp_domain", "tp_play_store", "tp_apple_store"],
+    supportId: "maint_standard",
+    expectedBenefits: [
+      "Direct presence on iOS App Store & Android Play Store",
+      "Send native push alert pushbacks to users",
+      "User engagement retention metrics",
+      "Fast native-feel visual design"
+    ]
+  },
+  {
+    id: "preset_desktop_software",
+    name: "Desktop Software",
+    icon: "Monitor",
+    categoryId: "desktop",
+    packageId: "desk_basic",
+    featureIds: ["feat_pdf_gen", "feat_auth"],
+    infrastructureIds: ["tp_domain"],
+    supportId: "maint_basic",
+    expectedBenefits: [
+      "Standalone Windows installer distribution",
+      "Offline database operation",
+      "Direct thermal printer layout integrations",
+      "Client management desktop tool logs"
+    ]
+  },
+  {
+    id: "preset_internal_tool",
+    name: "Internal Company Tool",
+    icon: "Wrench",
+    categoryId: "custom",
+    packageId: "cust_mvp",
+    featureIds: ["feat_auth", "feat_admin_panel"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain"],
+    supportId: "maint_basic",
+    expectedBenefits: [
+      "Increase administrative operational velocity",
+      "Digitize manual excel paper ledger logs",
+      "Secure hosting restricted to staff",
+      "Custom operations pipelines workflows"
+    ]
+  },
+  {
+    id: "preset_automation_tool",
+    name: "Automation Tool",
+    icon: "Cpu",
+    categoryId: "automation",
+    packageId: "auto_adv",
+    featureIds: ["feat_whatsapp"],
+    infrastructureIds: [],
+    supportId: "maint_none",
+    expectedBenefits: [
+      "Eradicate daily manual file transformations",
+      "Automated CRM scheduled follow-up alerts",
+      "24/7 scripts loop processing databases",
+      "Fast data transfer pipelines setups"
+    ]
+  },
+  {
+    id: "preset_ai_tool",
+    name: "AI Tool",
+    icon: "Brain",
+    categoryId: "ai",
+    packageId: "ai_chatbot_plan",
+    featureIds: ["feat_chatbot", "feat_auth"],
+    infrastructureIds: ["tp_host_dynamic", "tp_domain"],
+    supportId: "maint_standard",
+    expectedBenefits: [
+      "Decrease customer support response delays",
+      "Trained LLM answers customer inquiries 24/7",
+      "Integrate lead capture inside conversation flow",
+      "Decrease administrative support costs"
+    ]
   }
-];
-
-// Maintenance Section
-export const MAINTENANCE_OPTIONS: MaintenanceTier[] = [
-  { id: "maint_basic", name: "Basic Maintenance Plan", price: 500, priceDisplay: "₹500/month", billingPeriod: "month" },
-  { id: "maint_standard", name: "Standard Maintenance Plan", price: 1000, priceDisplay: "₹1,000/month", billingPeriod: "month" },
-  { id: "maint_premium", name: "Premium Maintenance Plan", price: 2500, priceDisplay: "₹2,500/month", billingPeriod: "month" }
 ];
 
 // Why Choose Us
