@@ -126,7 +126,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             onClick={() => onToggleBudgetMode(false)}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${!budgetMode
                 ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:text-slate-800'
+                : 'text-slate-600 hover:text-slate-800'
               }`}
           >
             Build Custom
@@ -136,7 +136,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             onClick={() => onToggleBudgetMode(true)}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${budgetMode
                 ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-800'
+                : 'text-slate-600 hover:text-slate-800'
               }`}
           >
             Build Within Budget
@@ -146,7 +146,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
       {/* Quick Start Presets */}
       <div className="space-y-4">
-        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider text-left">
+        <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider text-left">
           🚀 Quick Start Presets
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -176,7 +176,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
       {/* Core Custom Categories */}
       <div className="space-y-4">
-        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider text-left">
+        <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider text-left">
           ⚙️ Customize From Scratch
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -202,7 +202,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
                   <p className="text-slate-500 text-xs leading-normal">
                     {cat.description}
                   </p>
-                  <span className="inline-block text-[10px] font-bold text-slate-400">
+                  <span className="inline-block text-[10px] font-bold text-slate-600">
                     Starting from ₹{cat.startingPrice.toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -229,7 +229,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
         </div>
 
         {packages.length === 0 ? (
-          <div className="p-8 text-center bg-slate-50 rounded-xl border border-slate-200 text-slate-400">
+          <div className="p-8 text-center bg-slate-50 rounded-xl border border-slate-200 text-slate-600">
             Please go back to Step 1 and select a product type.
           </div>
         ) : (
@@ -271,12 +271,12 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
                       <span className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">
                         {pkg.priceDisplay}
                       </span>
-                      <span className="ml-1.5 text-xs text-slate-400 font-semibold uppercase">one-time</span>
+                      <span className="ml-1.5 text-xs text-slate-600 font-semibold uppercase">one-time</span>
                     </div>
 
                     {/* Deliverables Checklist */}
                     <div className="space-y-2.5 text-left">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">
                         Included Scope Deliverables:
                       </span>
                       <ul className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
@@ -403,7 +403,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
               ) : (
                 <div className="pt-4 border-t border-slate-100 flex flex-col justify-between gap-4">
                   <div className="space-y-1.5">
-                    <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Number of Products</span>
+                    <span className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">Number of Products</span>
                     <div className="flex items-center">
                       <button
                         type="button"
@@ -434,7 +434,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
                   <div className="flex justify-between items-center pt-2">
                     <div className="text-left font-sans">
-                      <span className="block text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Subtotal</span>
+                      <span className="block text-[9px] text-slate-600 font-semibold uppercase tracking-wider">Subtotal</span>
                       <span className="text-base font-extrabold text-indigo-600 font-display">
                         {formatCurrencyLocal(productInsertCount * 40)}
                       </span>
@@ -498,7 +498,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
                     {/* Products count */}
                     <div className="space-y-1">
-                      <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Products</span>
+                      <span className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">Products</span>
                       <div className="flex items-center">
                         <button
                           type="button"
@@ -529,7 +529,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
                     {/* Images per product */}
                     <div className="space-y-1">
-                      <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Img/Product</span>
+                      <span className="block text-[9px] font-bold text-slate-600 uppercase tracking-wider">Img/Product</span>
                       <div className="flex items-center">
                         <button
                           type="button"
@@ -561,7 +561,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
                   <div className="flex justify-between items-center pt-2">
                     <div className="text-left font-sans">
-                      <span className="block text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Subtotal</span>
+                      <span className="block text-[9px] text-slate-600 font-semibold uppercase tracking-wider">Subtotal</span>
                       <span className="text-base font-extrabold text-indigo-600 font-display">
                         {formatCurrencyLocal(calculateAiPhotoCostLocal())}
                       </span>
@@ -613,7 +613,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
                     {/* Dependency Alerts */}
                     {feat.dependencies && feat.dependencies.length > 0 && (
-                      <div className="text-[10px] font-bold text-amber-600 flex items-center gap-1">
+                      <div className="text-[10px] font-bold text-amber-800 flex items-center gap-1">
                         <Icons.AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
                         <span>Requires: {feat.dependencies.map(dId => FEATURES.find(f => f.id === dId)?.name).join(', ')}</span>
                       </div>
@@ -675,7 +675,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
                   <p className="text-slate-500 text-[11px] leading-normal">
                     {service.description}
                   </p>
-                  <span className="inline-block text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                  <span className="inline-block text-[10px] text-slate-600 font-semibold uppercase tracking-wider">
                     {service.billing} cost
                   </span>
                 </div>
@@ -830,7 +830,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
 
           <form onSubmit={onSubmitInquiry} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="client_name" className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="client_name" className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                 Your Name *
               </label>
               <input
@@ -845,7 +845,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             </div>
 
             <div>
-              <label htmlFor="client_biz" className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="client_biz" className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                 Business Name
               </label>
               <input
@@ -859,7 +859,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             </div>
 
             <div>
-              <label htmlFor="client_phone" className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="client_phone" className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                 Phone / WhatsApp *
               </label>
               <input
@@ -874,7 +874,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             </div>
 
             <div>
-              <label htmlFor="client_email" className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="client_email" className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                 Email Address
               </label>
               <input
@@ -888,7 +888,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="client_notes" className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="client_notes" className="block text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                 Brief Project Notes (Deadlines, reference sites, etc.)
               </label>
               <textarea

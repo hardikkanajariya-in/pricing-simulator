@@ -114,14 +114,14 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       {/* Client Context Details */}
       <div className="grid grid-cols-2 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs">
         <div className="text-left space-y-1">
-          <span className="font-bold text-slate-400 uppercase tracking-wider block">Prepared For:</span>
+          <span className="font-bold text-slate-600 uppercase tracking-wider block">Prepared For:</span>
           <span className="text-sm font-extrabold text-slate-900 block">{clientName || "Valued Client"}</span>
           {businessName && <span className="text-slate-600 block">Business: {businessName}</span>}
           {phone && <span className="text-slate-600 block">Phone: {phone}</span>}
           {email && <span className="text-slate-600 block">Email: {email}</span>}
         </div>
         <div className="text-left space-y-1">
-          <span className="font-bold text-slate-400 uppercase tracking-wider block">Prepared By:</span>
+          <span className="font-bold text-slate-600 uppercase tracking-wider block">Prepared By:</span>
           <span className="text-sm font-extrabold text-slate-900 block">Hardik Kanajariya</span>
           <span className="text-slate-600 block">Role: Full-Stack Developer</span>
           <span className="text-slate-600 block">Website: hardikkanajariya.in</span>
@@ -132,7 +132,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       {/* Scope / Core Deliverables */}
       {selectedPackage && (
         <div className="space-y-3 text-left print-avoid-break">
-          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">
+          <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider border-b border-slate-100 pb-1">
             1. Core Package Scope & Deliverables
           </h3>
           <div className="space-y-1">
@@ -153,7 +153,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       {/* Selected Addon features */}
       {selectedFeatures.length > 0 && (
         <div className="space-y-3 text-left print-avoid-break">
-          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">
+          <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider border-b border-slate-100 pb-1">
             2. Selected Software Modules & Integrations
           </h3>
           <table className="w-full text-left border-collapse text-xs">
@@ -170,7 +170,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
                 <tr key={feat.id}>
                   <td className="py-2 px-1 font-semibold text-slate-900">
                     {feat.name}
-                    <span className="block text-[10px] text-slate-400 font-light mt-0.5">{feat.description}</span>
+                    <span className="block text-[10px] text-slate-600 font-light mt-0.5">{feat.description}</span>
                   </td>
                   <td className="py-2 px-1 capitalize text-slate-600">{feat.complexity}</td>
                   <td className="py-2 px-1 text-slate-600">+{feat.deliveryDays} Days</td>
@@ -187,7 +187,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       {/* Timeline Breakdown */}
       {totalTimelineDays > 0 && (
         <div className="space-y-3 text-left print-avoid-break">
-          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">
+          <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider border-b border-slate-100 pb-1">
             3. Project Implementation Timeline
           </h3>
           <p className="text-xs text-slate-600">
@@ -220,7 +220,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
 
       {/* Cost Categories Summary */}
       <div className="space-y-3 text-left print-avoid-break">
-        <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">
+        <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wider border-b border-slate-100 pb-1">
           4. Cost Categories Summary Breakdown
         </h3>
         <table className="w-full text-left border-collapse text-xs">
@@ -318,7 +318,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       </div>
 
       {/* Terms & Footer */}
-      <div className="pt-6 border-t border-slate-150 text-[10px] text-slate-450 leading-relaxed text-left space-y-2 print-avoid-break">
+      <div className="pt-6 border-t border-slate-150 text-[10px] text-slate-600 leading-relaxed text-left space-y-2 print-avoid-break">
         <p>
           * Estimates are provisional based on pre-configured modules. Scope changes, addition of unlisted endpoints, or dynamic CMS logic changes after coding starts will impact quotes.
         </p>

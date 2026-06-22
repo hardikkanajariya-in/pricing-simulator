@@ -16,10 +16,10 @@ export const Footer: React.FC = () => {
             </span>
             {BRAND_INFO.name}
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
             {BRAND_INFO.tagline}. High-quality engineering, transparent pricing, and robust client relations based in Gujarat.
           </p>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-xs text-slate-400">
             <MapPin className="w-4 h-4 text-indigo-500 flex-shrink-0" />
             <span>Gujarat, India (Remote Support)</span>
           </div>
@@ -136,18 +136,18 @@ export const Footer: React.FC = () => {
               </a>
             )}
           </div>
-          <p className="text-[11px] text-slate-500 leading-tight">
+          <p className="text-[11px] text-slate-400 leading-tight">
             Consultations are free. Drop a message on WhatsApp to discuss project scopes and features.
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-600">
+      <div className="max-w-7xl mx-auto pt-8 border-t border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
         <p>© {currentYear} {BRAND_INFO.name}. Designed & Developed by Hardik Kanajariya.</p>
         <div className="flex gap-4">
-          <span className="hover:text-slate-500">Gujarati Support Available</span>
+          <span className="hover:text-slate-200">Gujarati Support Available</span>
           <span>•</span>
-          <span className="hover:text-slate-500">Secure Payments</span>
+          <span className="hover:text-slate-200">Secure Payments</span>
         </div>
       </div>
     </footer>

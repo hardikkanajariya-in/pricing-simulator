@@ -183,7 +183,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
           {selectedCategoryId && (
             <button 
               onClick={onReset}
-              className="text-xs text-slate-400 hover:text-red-500 font-semibold flex items-center gap-1 transition-colors"
+              className="text-xs text-slate-600 hover:text-red-500 font-semibold flex items-center gap-1 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
               Reset
@@ -192,7 +192,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
         </div>
 
         {/* Wizard Steps indicator */}
-        <div className="flex justify-between items-center text-xs text-slate-400">
+        <div className="flex justify-between items-center text-xs text-slate-600">
           <span className="font-bold">Step {activeStep} of 6</span>
           <span className="font-medium text-slate-600">
             {activeStep === 1 && "Category Select"}
@@ -217,7 +217,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
       {selectedCategoryId && (
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Project Scope:</span>
+            <span className="text-xs text-slate-600 font-bold uppercase tracking-wider">Project Scope:</span>
             <span className="text-xs font-extrabold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 uppercase tracking-wide">
               {getProjectScope()}
             </span>
@@ -282,7 +282,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
       {selectedCategoryId && (
         <div className="border-t border-slate-100 pt-4 space-y-3">
           <div className="flex justify-between items-baseline">
-            <span className="text-xs text-slate-400 font-semibold uppercase">Development Cost:</span>
+            <span className="text-xs text-slate-600 font-semibold uppercase">Development Cost:</span>
             <span className="text-base font-extrabold text-slate-900 font-display">
               {formattedCurrency(oneTimeTotal)}
             </span>
@@ -290,18 +290,18 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
 
           {monthlyTotal > 0 && (
             <div className="flex justify-between items-baseline">
-              <span className="text-xs text-slate-400 font-semibold uppercase">Monthly Cost:</span>
+              <span className="text-xs text-slate-600 font-semibold uppercase">Monthly Cost:</span>
               <span className="text-sm font-bold text-slate-800">
-                {formattedCurrency(monthlyTotal)} <span className="text-[9px] text-slate-400 font-normal">/mo</span>
+                {formattedCurrency(monthlyTotal)} <span className="text-[9px] text-slate-600 font-normal">/mo</span>
               </span>
             </div>
           )}
 
           {yearlyTotal > 0 && (
             <div className="flex justify-between items-baseline">
-              <span className="text-xs text-slate-400 font-semibold uppercase">Yearly Cost:</span>
+              <span className="text-xs text-slate-600 font-semibold uppercase">Yearly Cost:</span>
               <span className="text-sm font-bold text-slate-800">
-                {formattedCurrency(yearlyTotal)} <span className="text-[9px] text-slate-400 font-normal">/yr</span>
+                {formattedCurrency(yearlyTotal)} <span className="text-[9px] text-slate-600 font-normal">/yr</span>
               </span>
             </div>
           )}
@@ -309,7 +309,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
           <div className="border-t border-slate-100 pt-3 flex justify-between items-baseline">
             <div className="flex flex-col">
               <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">First-Year Total:</span>
-              <span className="text-[9px] text-slate-400 font-semibold leading-none">Dev + Hosting + Support</span>
+              <span className="text-[9px] text-slate-600 font-semibold leading-none">Dev + Hosting + Support</span>
             </div>
             <span className="text-lg font-extrabold text-indigo-600 font-display">
               {formattedCurrency(firstYearTotal)}
@@ -322,7 +322,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
       {selectedCategoryId && totalTimelineDays > 0 && (
         <div className="border-t border-slate-100 pt-4 space-y-3">
           <div className="flex justify-between items-center">
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Delivery Time:</span>
+            <span className="text-xs text-slate-600 font-bold uppercase tracking-wider">Total Delivery Time:</span>
             <span className="text-xs font-extrabold text-slate-900">{totalTimelineDays} Working Days</span>
           </div>
 

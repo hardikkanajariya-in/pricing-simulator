@@ -312,7 +312,7 @@ function App() {
               <span className="font-extrabold text-slate-900 text-sm sm:text-base font-display block leading-none text-left">
                 {BRAND_INFO.name}
               </span>
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5 block">
+              <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider mt-0.5 block">
                 {BRAND_INFO.tagline}
               </span>
             </div>
@@ -321,11 +321,11 @@ function App() {
           {/* Desktop Nav anchors */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-semibold text-slate-600">
             <button onClick={() => { setActiveStep(1); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors">1. Build</button>
-            <button onClick={() => { setActiveStep(2); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors" disabled={!selectedCategoryId}>2. Package</button>
-            <button onClick={() => { setActiveStep(3); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors" disabled={!selectedCategoryId}>3. Features</button>
-            <button onClick={() => { setActiveStep(4); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors" disabled={!selectedCategoryId}>4. Infrastructure</button>
-            <button onClick={() => { setActiveStep(5); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors" disabled={!selectedCategoryId}>5. Support</button>
-            <button onClick={() => { setActiveStep(6); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors" disabled={!selectedCategoryId}>6. Review</button>
+            <button onClick={() => { setActiveStep(2); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled={!selectedCategoryId}>2. Package</button>
+            <button onClick={() => { setActiveStep(3); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled={!selectedCategoryId}>3. Features</button>
+            <button onClick={() => { setActiveStep(4); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled={!selectedCategoryId}>4. Infrastructure</button>
+            <button onClick={() => { setActiveStep(5); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled={!selectedCategoryId}>5. Support</button>
+            <button onClick={() => { setActiveStep(6); scrollToCalculator(); }} className="hover:text-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled={!selectedCategoryId}>6. Review</button>
           </nav>
 
           {/* WhatsApp Action button */}

@@ -34,7 +34,7 @@ export const ClientTerms: React.FC = () => {
                   Client Responsibilities
                 </h3>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 To keep the timeline on schedule, the client must provide the following assets and approvals:
               </p>
               <ul className="space-y-2.5 pt-2">
@@ -46,7 +46,7 @@ export const ClientTerms: React.FC = () => {
                 ))}
               </ul>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-400">
+            <div className="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-600">
               * Delay in assets delivery will shift the project timeline.
             </div>
           </div>
@@ -55,14 +55,14 @@ export const ClientTerms: React.FC = () => {
           <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-800">
                   <ExternalLink className="w-5.5 h-5.5" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-base sm:text-lg font-display">
                   Third-Party Costs
                 </h3>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 External tools and licenses are not included in development charges and are billed separately by their respective providers:
               </p>
               <ul className="space-y-2.5 pt-2">
@@ -74,7 +74,7 @@ export const ClientTerms: React.FC = () => {
                 ))}
               </ul>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-100 text-[11px] text-amber-600 bg-amber-50/20 p-2.5 rounded-lg border border-amber-100/50">
+            <div className="mt-6 pt-4 border-t border-slate-100 text-[11px] text-amber-800 bg-amber-50/20 p-2.5 rounded-lg border border-amber-100/50">
               Note: Domain, SMS gateway credits, logistics, and payment portal charges are directly paid to the providers.
             </div>
           </div>
@@ -90,7 +90,7 @@ export const ClientTerms: React.FC = () => {
                   No Hidden Charges
                 </h3>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Your quote represents the complete pricing. The final approved amount includes:
               </p>
               <ul className="space-y-2.5 pt-2">
