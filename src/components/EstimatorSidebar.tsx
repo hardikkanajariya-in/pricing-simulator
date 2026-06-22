@@ -241,7 +241,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
               step="5000"
               value={budgetLimit}
               onChange={(e) => onBudgetLimitChange(parseInt(e.target.value) || 0)}
-              className="w-24 px-2 py-1 text-xs border border-slate-200 rounded font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-650"
+              className="w-24 px-2 py-1 text-xs border border-slate-200 rounded font-bold text-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-600"
             />
           </div>
 
@@ -268,7 +268,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
                 <button
                   type="button"
                   onClick={() => onApplyRealityAlternative(alternative.categoryId, alternative.packageId, alternative.featureIds)}
-                  className="w-full py-1.5 px-2 bg-indigo-600 hover:bg-indigo-650 text-white font-bold text-[10px] rounded transition-all"
+                  className="w-full py-1.5 px-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] rounded transition-all"
                 >
                   Switch to Recommended Fit ({formattedCurrency(alternative.cost)})
                 </button>
@@ -300,7 +300,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
           {yearlyTotal > 0 && (
             <div className="flex justify-between items-baseline">
               <span className="text-xs text-slate-400 font-semibold uppercase">Yearly Cost:</span>
-              <span className="text-sm font-bold text-slate-805">
+              <span className="text-sm font-bold text-slate-800">
                 {formattedCurrency(yearlyTotal)} <span className="text-[9px] text-slate-400 font-normal">/yr</span>
               </span>
             </div>
@@ -311,7 +311,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
               <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">First-Year Total:</span>
               <span className="text-[9px] text-slate-400 font-semibold leading-none">Dev + Hosting + Support</span>
             </div>
-            <span className="text-lg font-extrabold text-indigo-750 font-display text-indigo-600">
+            <span className="text-lg font-extrabold text-indigo-600 font-display">
               {formattedCurrency(firstYearTotal)}
             </span>
           </div>
@@ -380,7 +380,7 @@ export const EstimatorSidebar: React.FC<EstimatorSidebarProps> = ({
             onClick={() => onStepChange(activeStep + 1)}
             className={`flex-1 flex items-center justify-center gap-2 font-bold py-3 px-4 rounded-xl shadow transition-all text-xs ${
               selectedCategoryId
-                ? 'bg-indigo-600 hover:bg-indigo-650 text-white'
+                ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
                 : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200 shadow-none'
             }`}
           >

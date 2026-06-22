@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { WizardSteps } from './components/WizardSteps';
 import { EstimatorSidebar } from './components/EstimatorSidebar';
@@ -16,23 +16,56 @@ import { MessageSquare, Shield, Star, Award, Zap } from 'lucide-react';
 
 function App() {
   // Wizard active step
-  const [activeStep, setActiveStep] = useState<number>(1);
+  const [activeStep, setActiveStep] = useState<number>(() => {
+    const state = parseStateFromHash();
+    return state.activeStep !== undefined ? state.activeStep : 1;
+  });
 
   // Core selections
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
-  const [selectedFeatureIds, setSelectedFeatureIds] = useState<string[]>([]);
-  const [selectedInfrastructureIds, setSelectedInfrastructureIds] = useState<string[]>([]);
-  const [selectedSupportId, setSelectedSupportId] = useState<string>('maint_none');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(() => {
+    const state = parseStateFromHash();
+    return state.categoryId !== undefined ? state.categoryId : null;
+  });
+  const [selectedPackageId, setSelectedPackageId] = useState<string | null>(() => {
+    const state = parseStateFromHash();
+    return state.packageId !== undefined ? state.packageId : null;
+  });
+  const [selectedFeatureIds, setSelectedFeatureIds] = useState<string[]>(() => {
+    const state = parseStateFromHash();
+    return state.featureIds !== undefined ? state.featureIds : [];
+  });
+  const [selectedInfrastructureIds, setSelectedInfrastructureIds] = useState<string[]>(() => {
+    const state = parseStateFromHash();
+    return state.infrastructureIds !== undefined ? state.infrastructureIds : [];
+  });
+  const [selectedSupportId, setSelectedSupportId] = useState<string>(() => {
+    const state = parseStateFromHash();
+    return state.supportId !== undefined ? state.supportId : 'maint_none';
+  });
 
   // Budget mode
-  const [budgetMode, setBudgetMode] = useState<boolean>(false);
-  const [budgetLimit, setBudgetLimit] = useState<number>(25000);
+  const [budgetMode, setBudgetMode] = useState<boolean>(() => {
+    const state = parseStateFromHash();
+    return state.budgetMode !== undefined ? state.budgetMode : false;
+  });
+  const [budgetLimit, setBudgetLimit] = useState<number>(() => {
+    const state = parseStateFromHash();
+    return state.budgetLimit !== undefined ? state.budgetLimit : 25000;
+  });
 
   // Calculators (re-added)
-  const [productInsertCount, setProductInsertCount] = useState<number>(0);
-  const [aiPhotoProductCount, setAiPhotoProductCount] = useState<number>(0);
-  const [aiPhotoImagesPerProduct, setAiPhotoImagesPerProduct] = useState<number>(2);
+  const [productInsertCount, setProductInsertCount] = useState<number>(() => {
+    const state = parseStateFromHash();
+    return state.productInsertCount !== undefined ? state.productInsertCount : 0;
+  });
+  const [aiPhotoProductCount, setAiPhotoProductCount] = useState<number>(() => {
+    const state = parseStateFromHash();
+    return state.aiPhotoProductCount !== undefined ? state.aiPhotoProductCount : 0;
+  });
+  const [aiPhotoImagesPerProduct, setAiPhotoImagesPerProduct] = useState<number>(() => {
+    const state = parseStateFromHash();
+    return state.aiPhotoImagesPerProduct !== undefined ? state.aiPhotoImagesPerProduct : 2;
+  });
 
   // Client Details (Lead)
   const [clientName, setClientName] = useState<string>('');
@@ -41,32 +74,8 @@ function App() {
   const [email, setEmail] = useState<string>('');
   const [callbackNotes, setCallbackNotes] = useState<string>('');
 
-  const isRestored = useRef(false);
-
-  // 1. Initial State Restoration from Hash
+  // State Sync to Hash URL
   useEffect(() => {
-    const initialState = parseStateFromHash();
-    if (initialState.categoryId) setSelectedCategoryId(initialState.categoryId);
-    if (initialState.packageId) setSelectedPackageId(initialState.packageId);
-    if (initialState.featureIds) setSelectedFeatureIds(initialState.featureIds);
-    if (initialState.infrastructureIds) setSelectedInfrastructureIds(initialState.infrastructureIds);
-    if (initialState.supportId) setSelectedSupportId(initialState.supportId);
-    if (initialState.budgetMode !== undefined) setBudgetMode(initialState.budgetMode);
-    if (initialState.budgetLimit !== undefined) setBudgetLimit(initialState.budgetLimit);
-    if (initialState.activeStep !== undefined) setActiveStep(initialState.activeStep);
-    if (initialState.productInsertCount !== undefined) setProductInsertCount(initialState.productInsertCount);
-    if (initialState.aiPhotoProductCount !== undefined) setAiPhotoProductCount(initialState.aiPhotoProductCount);
-    if (initialState.aiPhotoImagesPerProduct !== undefined) setAiPhotoImagesPerProduct(initialState.aiPhotoImagesPerProduct);
-    
-    // Mark restoration as complete
-    isRestored.current = true;
-  }, []);
-
-  // 2. State Sync to Hash URL
-  useEffect(() => {
-    // Only serialize if restoration has run
-    if (!isRestored.current) return;
-
     serializeStateToHash({
       categoryId: selectedCategoryId,
       packageId: selectedPackageId,

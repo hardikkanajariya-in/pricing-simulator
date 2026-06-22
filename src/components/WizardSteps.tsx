@@ -794,7 +794,7 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             Export Scope & Quote
           </h3>
           <p className="text-slate-500 text-xs">
-            Generate and save a clean PDF contract estimation for your internal records or share the details:
+            Generate and save a clean PDF contract estimation for your internal records:
           </p>
           <div className="flex flex-wrap gap-3">
             <button
@@ -804,43 +804,6 @@ export const WizardSteps: React.FC<WizardStepsProps> = ({
             >
               <Icons.Download className="w-4 h-4" />
               Download PDF Proposal
-            </button>
-
-            {/* Share selector */}
-            <button
-              type="button"
-              onClick={() => {
-                const url = window.location.href;
-                const fallbackCopy = (text: string) => {
-                  const ta = document.createElement("textarea");
-                  ta.value = text;
-                  ta.style.position = "fixed";
-                  document.body.appendChild(ta);
-                  ta.focus();
-                  ta.select();
-                  try {
-                    document.execCommand('copy');
-                    alert("Share link copied to clipboard!");
-                  } catch (e) {
-                    alert("Failed to copy link. Please copy the URL from your address bar.");
-                  }
-                  document.body.removeChild(ta);
-                };
-                
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                  navigator.clipboard.writeText(url).then(() => {
-                    alert("Share link copied to clipboard!");
-                  }).catch(() => {
-                    fallbackCopy(url);
-                  });
-                } else {
-                  fallbackCopy(url);
-                }
-              }}
-              className="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-5 py-3 rounded-xl border border-slate-200 transition-colors"
-            >
-              <Icons.Share2 className="w-4 h-4" />
-              Share Link
             </button>
           </div>
         </div>

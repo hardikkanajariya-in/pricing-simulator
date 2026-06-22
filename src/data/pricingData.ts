@@ -126,7 +126,7 @@ export const CORE_PACKAGES: CorePackage[] = [
     description: " brochure-style static pages for small local service shops.",
     deliveryDays: 5,
     confidence: "high",
-    deliverables: ["Up to 5 Pages", "Home Page", "About Page", "Services Page", "Contact Page", "Gallery Page", "Mobile Responsive Design", "Contact Form", "WhatsApp Button", "Basic SEO", "Vercel Hosting Setup", "SSL Certificate"]
+    deliverables: ["Up to 5 Pages", "Home Page", "About Page", "Services Page", "Contact Page", "Gallery Page", "Mobile Responsive Design", "Contact Form", "WhatsApp Button", "Basic SEO", "Free 1st Year Hosting Setup", "SSL Certificate"]
   },
   {
     id: "web_business",
@@ -137,7 +137,7 @@ export const CORE_PACKAGES: CorePackage[] = [
     description: "Dynamic pages containing Google Sheets CMS integrations and custom blog post support.",
     deliveryDays: 10,
     confidence: "high",
-    deliverables: ["Up to 15 Pages", "Everything in Starter Website", "Blog System", "Dynamic Content Integration", "Google Sheets CMS Control", "Cloudinary Image Delivery Cloud", "Unlimited Blog Articles Support", "Visual Product Catalog", "SEO Friendly URLs", "Search Functionality"]
+    deliverables: ["Up to 15 Pages", "Everything in Starter Website", "Blog System", "Dynamic Content Integration", "Google Sheets CMS Control", "Optimized CDN Image Delivery", "Unlimited Blog Articles Support", "Visual Product Catalog", "SEO Friendly URLs", "Search Functionality"]
   },
   {
     id: "web_advanced",
@@ -575,10 +575,10 @@ export const FEATURES: Feature[] = [
 
 // Third Party Services (Step 4)
 export const THIRD_PARTY_SERVICES: ThirdPartyService[] = [
-  { id: "tp_host_static", name: "Vercel Static Hosting", price: 2500, billing: "yearly", priceDisplay: "₹2,500/year", description: "Hosting for static sites (HTML, React, AstroJS) with SSL." },
-  { id: "tp_host_dynamic", name: "VPS Cloud Hosting", price: 5000, billing: "yearly", priceDisplay: "₹5,000/year", description: "Database hosting for Next.js, APIs, and Node backends." },
+  { id: "tp_host_static", name: "1st Year Free Static Hosting", price: 0, billing: "yearly", priceDisplay: "Free", description: "Free hosting for 1st year (applicable only for small static business websites)." },
+  { id: "tp_host_dynamic", name: "VPS Hosting Setup & AWS Credits", price: 0, billing: "yearly", priceDisplay: "Free", description: "Free VPS deployment setup. Includes $200 AWS hosting credits to get you started." },
   { id: "tp_domain", name: "Domain Name (.com / .in)", price: 1000, billing: "yearly", priceDisplay: "₹1,000/year", description: "Custom web address registration." },
-  { id: "tp_cloudinary", name: "Cloudinary Assets Storage", price: 1500, billing: "yearly", priceDisplay: "₹1,500/year", description: "Storage for images, media assets, and fast deliveries." },
+  { id: "tp_cloudinary", name: "Cloud CDN & Media Storage", price: 1500, billing: "yearly", priceDisplay: "₹1,500/year", description: "Edge-delivery storage for images, media assets, and fast global delivery." },
   { id: "tp_workspace", name: "Google Workspace Email", price: 600, billing: "monthly", priceDisplay: "₹600/month", description: "Professional business email account (info@yourcompany.com)." },
   { id: "tp_sms", name: "SMS OTP Gateway Credits", price: 1000, billing: "one-time", priceDisplay: "₹1,000 starting", description: "Prepaid SMS gateway credits for verification OTPs." },
   { id: "tp_play_store", name: "Google Play Developer Account", price: 2500, billing: "one-time", priceDisplay: "₹2,500 (one-time)", description: "Developer console registration required to publish Android apps." },

@@ -39,7 +39,7 @@ export const ClientTerms: React.FC = () => {
               </p>
               <ul className="space-y-2.5 pt-2">
                 {CLIENT_RESPONSIBILITIES.map((item, idx) => (
-                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-650">
+                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-600">
                     <CheckCircle2 className="w-4.5 h-4.5 text-indigo-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="font-medium">{item}</span>
                   </li>
@@ -67,7 +67,7 @@ export const ClientTerms: React.FC = () => {
               </p>
               <ul className="space-y-2.5 pt-2">
                 {THIRD_PARTY_COSTS.map((item, idx) => (
-                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-650">
+                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-600">
                     <AlertCircle className="w-4.5 h-4.5 text-amber-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
@@ -95,7 +95,7 @@ export const ClientTerms: React.FC = () => {
               </p>
               <ul className="space-y-2.5 pt-2">
                 {["Development & Design", "Testing & Verification", "Production Deployment", "Basic Admin Training", "Initial Launch Support"].map((item, idx) => (
-                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-650">
+                  <li key={idx} className="flex items-start text-xs sm:text-sm text-slate-600">
                     <CheckCircle2 className="w-4.5 h-4.5 text-emerald-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="font-medium">{item}</span>
                   </li>

@@ -10,7 +10,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
     <section className="relative overflow-hidden bg-slate-950 text-white py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
       {/* Background gradients */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/30 via-slate-950 to-slate-950 -z-10" />
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-650/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-emerald-600/5 rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -35,15 +35,15 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
 
           {/* Quick Value Badges */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-805">
+            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
               <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <span className="text-xs font-semibold">Zero Hidden Fees</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-805">
+            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
               <Zap className="w-4 h-4 text-amber-400 flex-shrink-0" />
               <span className="text-xs font-semibold">Predefined Modules</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-805">
+            <div className="flex items-center gap-2 text-slate-300 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
               <Layers className="w-4 h-4 text-sky-405 text-sky-400 flex-shrink-0" />
               <span className="text-xs font-semibold">Instant Proposals</span>
             </div>
@@ -52,7 +52,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
           <div className="pt-4">
             <button
               onClick={onScrollToCalculator}
-              className="group inline-flex items-center justify-center gap-2 bg-indigo-650 hover:bg-indigo-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-indigo-650/20 transition-all duration-300 transform hover:-translate-y-0.5"
+              className="group inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-indigo-600/20 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               Start Estimator Wizard
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

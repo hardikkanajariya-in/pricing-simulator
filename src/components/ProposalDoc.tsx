@@ -29,6 +29,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
   businessName,
   phone,
   email,
+  selectedCategoryId,
   selectedPackage,
   selectedFeatures,
   selectedInfrastructure,
@@ -46,6 +47,16 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
     month: 'long',
     year: 'numeric'
   });
+
+  const getProposalId = () => {
+    const seed = (clientName || "Valued Client") + (phone || "HK") + (selectedCategoryId || "web");
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const code = Math.abs(hash % 9000) + 1000;
+    return `#HK-${code}`;
+  };
 
   const formattedCurrency = (value: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -83,15 +94,9 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
       {/* Printable Header */}
       <div className="flex justify-between items-start border-b-2 border-indigo-600 pb-6">
         <div className="text-left space-y-1">
-          <div className="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white text-lg font-extrabold font-display">
-            HK
-          </div>
           <h1 className="text-2xl font-extrabold text-slate-950 font-display">
-            {BRAND_INFO.name}
+            hardikkanajariya.in
           </h1>
-          <span className="text-xs text-slate-500 font-medium uppercase tracking-wider block">
-            {BRAND_INFO.tagline}
-          </span>
           <span className="text-xs text-slate-500 block">
             Email: {BRAND_INFO.contacts.email} | WhatsApp: {BRAND_INFO.contacts.phone}
           </span>
@@ -102,7 +107,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
             Software Proposal & Estimate
           </span>
           <span className="block text-xs text-slate-500">Date: {currentDate}</span>
-          <span className="block text-xs font-bold text-slate-800">Proposal ID: #HK-{Math.floor(1000 + Math.random() * 9000)}</span>
+          <span className="block text-xs font-bold text-slate-800">Proposal ID: {getProposalId()}</span>
         </div>
       </div>
 
@@ -167,9 +172,9 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
                     {feat.name}
                     <span className="block text-[10px] text-slate-400 font-light mt-0.5">{feat.description}</span>
                   </td>
-                  <td className="py-2 px-1 capitalize text-slate-655">{feat.complexity}</td>
-                  <td className="py-2 px-1 text-slate-655">+{feat.deliveryDays} Days</td>
-                  <td className="py-2 px-1 text-right font-bold text-slate-805">
+                  <td className="py-2 px-1 capitalize text-slate-600">{feat.complexity}</td>
+                  <td className="py-2 px-1 text-slate-600">+{feat.deliveryDays} Days</td>
+                  <td className="py-2 px-1 text-right font-bold text-slate-800">
                     {formattedCurrency(feat.oneTimeCost)}
                   </td>
                 </tr>
@@ -199,7 +204,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
             </div>
             <div>
               <span className="block font-bold text-slate-700">Development</span>
-              <span className="text-slate-505 font-bold text-indigo-650">{timeline.development} Days</span>
+              <span className="text-slate-500 font-bold text-indigo-600">{timeline.development} Days</span>
             </div>
             <div>
               <span className="block font-bold text-slate-700">Testing</span>
@@ -278,8 +283,8 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
             Included in Development Cost:
           </span>
           <ul className="space-y-1">
-            {["✓ Coding & Development", "✓ Quality Assurance Testing", "✓ Production Server Deployment", "✓ Basic Admin Panel Training", "✓ 30-Day Post Launch Support"].map((item, idx) => (
-              <li key={idx} className="text-slate-655">{item}</li>
+            {["✓ Coding & Development", "✓ Quality Assurance Testing", "✓ Production Server Deployment", "✓ Basic Admin Panel Training", "✓ 6 Months of Free Basic Maintenance Support"].map((item, idx) => (
+              <li key={idx} className="text-slate-600">{item}</li>
             ))}
           </ul>
         </div>
@@ -291,7 +296,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
           </span>
           <ul className="space-y-1">
             {THIRD_PARTY_COSTS.map((item, idx) => (
-              <li key={idx} className="text-slate-655">✘ {item}</li>
+              <li key={idx} className="text-slate-600">✘ {item}</li>
             ))}
           </ul>
         </div>
@@ -318,7 +323,7 @@ export const ProposalDoc: React.FC<ProposalDocProps> = ({
           * Estimates are provisional based on pre-configured modules. Scope changes, addition of unlisted endpoints, or dynamic CMS logic changes after coding starts will impact quotes.
         </p>
         <p className="text-center font-semibold pt-4 text-slate-600">
-          Thank you for considering {BRAND_INFO.name}. Generated via estimator.hardikkanajariya.in
+          Thank you for your business. We look forward to working together.
         </p>
       </div>
 
