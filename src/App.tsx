@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { WizardSteps } from './components/WizardSteps';
 import { EstimatorSidebar } from './components/EstimatorSidebar';
-import { ProposalDoc } from './components/ProposalDoc';
-import { WhyChooseUs } from './components/WhyChooseUs';
-import { ClientTerms } from './components/ClientTerms';
-import { Footer } from './components/Footer';
+
+const ProposalDoc = lazy(() => import('./components/ProposalDoc').then(m => ({ default: m.ProposalDoc })));
+const WhyChooseUs = lazy(() => import('./components/WhyChooseUs').then(m => ({ default: m.WhyChooseUs })));
+const ClientTerms = lazy(() => import('./components/ClientTerms').then(m => ({ default: m.ClientTerms })));
+const Footer = lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
 
 import {
   Feature, ProjectPreset,
@@ -421,12 +422,16 @@ function App() {
 
       {/* Client Terms Transparency Cards */}
       <div className="no-print">
-        <ClientTerms />
+        <Suspense fallback={<div className="h-40 bg-slate-50 animate-pulse rounded-2xl" />}>
+          <ClientTerms />
+        </Suspense>
       </div>
 
       {/* Why Choose Us Full-Width Section */}
       <div className="no-print">
-        <WhyChooseUs />
+        <Suspense fallback={<div className="h-60 bg-slate-900 animate-pulse rounded-2xl" />}>
+          <WhyChooseUs />
+        </Suspense>
       </div>
 
       {/* Trust Badges Banner */}
@@ -453,28 +458,32 @@ function App() {
 
       {/* Footer Section */}
       <div className="no-print">
-        <Footer />
+        <Suspense fallback={<div className="h-60 bg-slate-950 animate-pulse" />}>
+          <Footer />
+        </Suspense>
       </div>
 
       {/* Hidden print-only proposal document */}
-      <ProposalDoc
-        clientName={clientName}
-        businessName={businessName}
-        phone={phone}
-        email={email}
-        selectedCategoryId={selectedCategoryId}
-        selectedPackage={selectedPackage}
-        selectedFeatures={selectedFeatures}
-        selectedInfrastructure={selectedInfrastructure}
-        selectedSupport={selectedSupport}
-        oneTimeTotal={oneTimeTotal}
-        monthlyTotal={monthlyTotal}
-        yearlyTotal={yearlyTotal}
-        totalTimelineDays={totalTimelineDays}
-        productInsertCount={productInsertCount}
-        aiPhotoProductCount={aiPhotoProductCount}
-        aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
-      />
+      <Suspense fallback={null}>
+        <ProposalDoc
+          clientName={clientName}
+          businessName={businessName}
+          phone={phone}
+          email={email}
+          selectedCategoryId={selectedCategoryId}
+          selectedPackage={selectedPackage}
+          selectedFeatures={selectedFeatures}
+          selectedInfrastructure={selectedInfrastructure}
+          selectedSupport={selectedSupport}
+          oneTimeTotal={oneTimeTotal}
+          monthlyTotal={monthlyTotal}
+          yearlyTotal={yearlyTotal}
+          totalTimelineDays={totalTimelineDays}
+          productInsertCount={productInsertCount}
+          aiPhotoProductCount={aiPhotoProductCount}
+          aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
+        />
+      </Suspense>
     </div>
   );
 }
