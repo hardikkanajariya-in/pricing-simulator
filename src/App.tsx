@@ -8,6 +8,7 @@ import { ShopifyServices } from './components/ShopifyServices';
 import { HostingMaintenance } from './components/HostingMaintenance';
 import { QuoteBuilder } from './components/QuoteBuilder';
 import { WhyChooseUs } from './components/WhyChooseUs';
+import { ClientTerms } from './components/ClientTerms';
 import { Footer } from './components/Footer';
 import { QuoteModal } from './components/QuoteModal';
 
@@ -27,7 +28,21 @@ function App() {
   const [selectedHosting, setSelectedHosting] = useState<HostingTier | null>(null);
   const [selectedMaintenance, setSelectedMaintenance] = useState<MaintenanceTier | null>(null);
   
-  // New dynamic entry/photography states
+  // Interactive page, language, and upload tier states
+  const [starterAdditionalPages, setStarterAdditionalPages] = useState<number>(0);
+  const [businessAdditionalPages, setBusinessAdditionalPages] = useState<number>(0);
+  const [additionalLanguagesCount, setAdditionalLanguagesCount] = useState<number>(0);
+
+  // New interactive service states
+  const [additionalStaticPagesCount, setAdditionalStaticPagesCount] = useState<number>(0);
+  const [additionalDynamicPagesCount, setAdditionalDynamicPagesCount] = useState<number>(0);
+  const [emailTemplatesCount, setEmailTemplatesCount] = useState<number>(0);
+  const [emergencySupportHours, setEmergencySupportHours] = useState<number>(0);
+  const [bugFixingHours, setBugFixingHours] = useState<number>(0);
+  const [consultationCallsCount, setConsultationCallsCount] = useState<number>(0);
+  const [trainingSessionsHours, setTrainingSessionsHours] = useState<number>(0);
+  
+  // Shopify counts (restored)
   const [productInsertCount, setProductInsertCount] = useState<number>(0);
   const [aiPhotoProductCount, setAiPhotoProductCount] = useState<number>(0);
   const [aiPhotoImagesPerProduct, setAiPhotoImagesPerProduct] = useState<number>(2);
@@ -37,7 +52,12 @@ function App() {
 
   // Selection handlers
   const handleSelectWebsite = (pkg: PricingPackage) => {
-    setSelectedWebsite(prev => (prev?.id === pkg.id ? null : pkg));
+    setSelectedWebsite(prev => {
+      const isNewPkg = prev?.id !== pkg.id;
+      setStarterAdditionalPages(0);
+      setBusinessAdditionalPages(0);
+      return isNewPkg ? pkg : null;
+    });
   };
 
   const handleSelectEcommerce = (pkg: PricingPackage) => {
@@ -52,6 +72,16 @@ function App() {
     setSelectedServices(prev => {
       const exists = prev.some(s => s.id === service.id);
       if (exists) {
+        // Reset specific service counters if deselected
+        if (service.id === 'srv_lang') setAdditionalLanguagesCount(0);
+        else if (service.id === 'srv_page_static') setAdditionalStaticPagesCount(0);
+        else if (service.id === 'srv_page_dynamic') setAdditionalDynamicPagesCount(0);
+        else if (service.id === 'srv_email_tmpl') setEmailTemplatesCount(0);
+        else if (service.id === 'srv_support_emergency') setEmergencySupportHours(0);
+        else if (service.id === 'srv_support_bugfix') setBugFixingHours(0);
+        else if (service.id === 'srv_support_consultation') setConsultationCallsCount(0);
+        else if (service.id === 'srv_support_training') setTrainingSessionsHours(0);
+
         return prev.filter(s => s.id !== service.id);
       } else {
         return [...prev, service];
@@ -87,6 +117,16 @@ function App() {
     setSelectedShopify([]);
     setSelectedHosting(null);
     setSelectedMaintenance(null);
+    setStarterAdditionalPages(0);
+    setBusinessAdditionalPages(0);
+    setAdditionalLanguagesCount(0);
+    setAdditionalStaticPagesCount(0);
+    setAdditionalDynamicPagesCount(0);
+    setEmailTemplatesCount(0);
+    setEmergencySupportHours(0);
+    setBugFixingHours(0);
+    setConsultationCallsCount(0);
+    setTrainingSessionsHours(0);
     setProductInsertCount(0);
     setAiPhotoProductCount(0);
     setAiPhotoImagesPerProduct(2);
@@ -105,16 +145,44 @@ function App() {
     let yearly = 0;
     let monthly = 0;
 
-    if (selectedWebsite) oneTime += selectedWebsite.price;
+    if (selectedWebsite) {
+      oneTime += selectedWebsite.price;
+      if (selectedWebsite.id === 'web_starter') {
+        oneTime += starterAdditionalPages * 500;
+      } else if (selectedWebsite.id === 'web_business') {
+        oneTime += businessAdditionalPages * 500;
+      }
+    }
     if (selectedEcommerce) oneTime += selectedEcommerce.price;
     if (selectedMobile) oneTime += selectedMobile.price;
-    selectedServices.forEach(s => { oneTime += s.price; });
+    
+    selectedServices.forEach(s => { 
+      oneTime += s.price; 
+      if (s.id === 'srv_lang') {
+        oneTime += additionalLanguagesCount * 2000;
+      } else if (s.id === 'srv_page_static') {
+        oneTime += additionalStaticPagesCount * 500;
+      } else if (s.id === 'srv_page_dynamic') {
+        oneTime += additionalDynamicPagesCount * 2000;
+      } else if (s.id === 'srv_email_tmpl') {
+        oneTime += emailTemplatesCount * 500;
+      } else if (s.id === 'srv_support_emergency') {
+        oneTime += emergencySupportHours * 1000;
+      } else if (s.id === 'srv_support_bugfix') {
+        oneTime += bugFixingHours * 500;
+      } else if (s.id === 'srv_support_consultation') {
+        oneTime += consultationCallsCount * 500;
+      } else if (s.id === 'srv_support_training') {
+        oneTime += trainingSessionsHours * 1000;
+      }
+    });
+    
     selectedShopify.forEach(s => { oneTime += s.price; });
     
-    // Add product data entry: ₹40 per product
+    // Restore product data entry calculation
     oneTime += productInsertCount * 40;
     
-    // Add AI photography: ₹100 base (includes 2 images), ₹40 per additional image
+    // Restore AI Photography calculation
     if (aiPhotoProductCount > 0) {
       const extraImages = Math.max(0, aiPhotoImagesPerProduct - 2);
       oneTime += aiPhotoProductCount * (100 + extraImages * 40);
@@ -141,7 +209,7 @@ function App() {
               <span className="text-white text-base font-extrabold font-display">HK</span>
             </div>
             <div>
-              <span className="font-extrabold text-slate-900 text-sm sm:text-base font-display block leading-none">
+              <span className="font-extrabold text-slate-900 text-sm sm:text-base font-display block leading-none text-left">
                 {BRAND_INFO.name}
               </span>
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-0.5 block">
@@ -151,7 +219,7 @@ function App() {
           </div>
 
           {/* Desktop Nav anchors */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-semibold text-slate-600">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-semibold text-slate-655">
             <a href="#websites" className="hover:text-indigo-600 transition-colors">Websites</a>
             <a href="#ecommerce" className="hover:text-indigo-600 transition-colors">E-Commerce</a>
             <a href="#mobile" className="hover:text-indigo-600 transition-colors">Mobile Apps</a>
@@ -183,19 +251,19 @@ function App() {
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <div className="flex items-center justify-center gap-2.5 md:border-r border-slate-100 last:border-0">
             <Shield className="w-5 h-5 text-indigo-600" />
-            <span className="text-xs sm:text-sm font-bold text-slate-700">100% Secure Support</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-705">100% Transparent Support</span>
           </div>
           <div className="flex items-center justify-center gap-2.5 md:border-r border-slate-100 last:border-0">
             <Star className="w-5 h-5 text-amber-500 fill-current" />
-            <span className="text-xs sm:text-sm font-bold text-slate-700">5-Star Dev Rating</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-705">Predefined Modules</span>
           </div>
           <div className="flex items-center justify-center gap-2.5 md:border-r border-slate-100 last:border-0">
             <Zap className="w-5 h-5 text-emerald-500" />
-            <span className="text-xs sm:text-sm font-bold text-slate-700">AstroJS Page Speed</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-705">No Hidden Charges</span>
           </div>
           <div className="flex items-center justify-center gap-2.5">
             <Award className="w-5 h-5 text-sky-500" />
-            <span className="text-xs sm:text-sm font-bold text-slate-700">Gujarat Native Support</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-705">Gujarat Native Support</span>
           </div>
         </div>
       </section>
@@ -212,6 +280,10 @@ function App() {
               <WebsitePackages 
                 selectedId={selectedWebsite?.id || null} 
                 onSelect={handleSelectWebsite} 
+                starterAdditionalPages={starterAdditionalPages}
+                businessAdditionalPages={businessAdditionalPages}
+                onStarterAdditionalPagesChange={setStarterAdditionalPages}
+                onBusinessAdditionalPagesChange={setBusinessAdditionalPages}
               />
             </section>
 
@@ -236,6 +308,30 @@ function App() {
               <IndividualServices 
                 selectedIds={selectedServices.map(s => s.id)} 
                 onToggleService={handleToggleService} 
+                
+                additionalLanguagesCount={additionalLanguagesCount}
+                onAdditionalLanguagesChange={setAdditionalLanguagesCount}
+                
+                additionalStaticPagesCount={additionalStaticPagesCount}
+                onAdditionalStaticPagesChange={setAdditionalStaticPagesCount}
+                
+                additionalDynamicPagesCount={additionalDynamicPagesCount}
+                onAdditionalDynamicPagesChange={setAdditionalDynamicPagesCount}
+                
+                emailTemplatesCount={emailTemplatesCount}
+                onEmailTemplatesChange={setEmailTemplatesCount}
+                
+                emergencySupportHours={emergencySupportHours}
+                onEmergencySupportHoursChange={setEmergencySupportHours}
+                
+                bugFixingHours={bugFixingHours}
+                onBugFixingHoursChange={setBugFixingHours}
+                
+                consultationCallsCount={consultationCallsCount}
+                onConsultationCallsChange={setConsultationCallsCount}
+                
+                trainingSessionsHours={trainingSessionsHours}
+                onTrainingSessionsHoursChange={setTrainingSessionsHours}
               />
             </section>
 
@@ -274,6 +370,18 @@ function App() {
               selectedServices={selectedServices}
               selectedShopify={selectedShopify}
               
+              starterAdditionalPages={starterAdditionalPages}
+              businessAdditionalPages={businessAdditionalPages}
+              additionalLanguagesCount={additionalLanguagesCount}
+              
+              additionalStaticPagesCount={additionalStaticPagesCount}
+              additionalDynamicPagesCount={additionalDynamicPagesCount}
+              emailTemplatesCount={emailTemplatesCount}
+              emergencySupportHours={emergencySupportHours}
+              bugFixingHours={bugFixingHours}
+              consultationCallsCount={consultationCallsCount}
+              trainingSessionsHours={trainingSessionsHours}
+              
               productInsertCount={productInsertCount}
               aiPhotoProductCount={aiPhotoProductCount}
               aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
@@ -284,9 +392,19 @@ function App() {
               onRemoveWebsite={() => setSelectedWebsite(null)}
               onRemoveEcommerce={() => setSelectedEcommerce(null)}
               onRemoveMobile={() => setSelectedMobile(null)}
-              onRemoveService={(id) => setSelectedServices(prev => prev.filter(s => s.id !== id))}
+              onRemoveService={(id) => handleToggleService(selectedServices.find(s => s.id === id) as ServiceItem)}
               onRemoveShopify={(id) => setSelectedShopify(prev => prev.filter(s => s.id !== id))}
               
+              onRemoveStarterPages={() => setStarterAdditionalPages(0)}
+              onRemoveBusinessPages={() => setBusinessAdditionalPages(0)}
+              onRemoveAdditionalLanguages={() => setAdditionalLanguagesCount(0)}
+              onRemoveAdditionalStaticPages={() => setAdditionalStaticPagesCount(0)}
+              onRemoveAdditionalDynamicPages={() => setAdditionalDynamicPagesCount(0)}
+              onRemoveEmailTemplates={() => setEmailTemplatesCount(0)}
+              onRemoveEmergencySupport={() => setEmergencySupportHours(0)}
+              onRemoveBugFixing={() => setBugFixingHours(0)}
+              onRemoveConsultationCalls={() => setConsultationCallsCount(0)}
+              onRemoveTrainingSessions={() => setTrainingSessionsHours(0)}
               onRemoveProductInsert={() => setProductInsertCount(0)}
               onRemoveAiPhoto={() => { setAiPhotoProductCount(0); setAiPhotoImagesPerProduct(2); }}
               
@@ -299,6 +417,9 @@ function App() {
 
         </div>
       </main>
+
+      {/* Client Terms Transparency Cards */}
+      <ClientTerms />
 
       {/* Why Choose Us Full-Width Section */}
       <WhyChooseUs />
@@ -315,6 +436,18 @@ function App() {
         selectedMobile={selectedMobile}
         selectedServices={selectedServices}
         selectedShopify={selectedShopify}
+        
+        starterAdditionalPages={starterAdditionalPages}
+        businessAdditionalPages={businessAdditionalPages}
+        additionalLanguagesCount={additionalLanguagesCount}
+        
+        additionalStaticPagesCount={additionalStaticPagesCount}
+        additionalDynamicPagesCount={additionalDynamicPagesCount}
+        emailTemplatesCount={emailTemplatesCount}
+        emergencySupportHours={emergencySupportHours}
+        bugFixingHours={bugFixingHours}
+        consultationCallsCount={consultationCallsCount}
+        trainingSessionsHours={trainingSessionsHours}
         
         productInsertCount={productInsertCount}
         aiPhotoProductCount={aiPhotoProductCount}
