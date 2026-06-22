@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Hero } from './components/Hero';
 import { WizardSteps } from './components/WizardSteps';
 import { EstimatorSidebar } from './components/EstimatorSidebar';
 import { ProposalDoc } from './components/ProposalDoc';
@@ -7,9 +6,9 @@ import { WhyChooseUs } from './components/WhyChooseUs';
 import { ClientTerms } from './components/ClientTerms';
 import { Footer } from './components/Footer';
 
-import { 
+import {
   Feature, ProjectPreset,
-  CORE_PACKAGES, FEATURES, THIRD_PARTY_SERVICES, SUPPORT_TIERS, BRAND_INFO 
+  CORE_PACKAGES, FEATURES, THIRD_PARTY_SERVICES, SUPPORT_TIERS, BRAND_INFO
 } from './data/pricingData';
 import { serializeStateToHash, parseStateFromHash } from './utils/UrlStateHelper';
 import { MessageSquare, Shield, Star, Award, Zap } from 'lucide-react';
@@ -265,7 +264,7 @@ function App() {
     e.preventDefault();
     const selectedPkg = CORE_PACKAGES.find(p => p.id === selectedPackageId);
     const selectedFeats = FEATURES.filter(f => selectedFeatureIds.includes(f.id));
-    
+
     const message = encodeURIComponent(
       `Hi Hardik,\n\nI just calculated a software estimate on your site and would like to request a callback.\n\n` +
       `*Name:* ${clientName}\n` +
@@ -281,7 +280,7 @@ function App() {
       `- Estimated First Year Total: ₹${firstYearTotal.toLocaleString('en-IN')}\n\n` +
       `*Notes:* ${callbackNotes || 'None'}`
     );
-    
+
     window.open(`https://wa.me/916353485415?text=${message}`, '_blank');
     alert("Inquiry summary generated! Redirecting to WhatsApp to send details directly to Hardik...");
   };
@@ -299,11 +298,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
-      
+
       {/* Sticky Premium Navbar */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex justify-between items-center">
-          
+
           {/* Logo Brand Title */}
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md shadow-indigo-600/10">
@@ -345,9 +344,89 @@ function App() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Split Layout Container */}
+      <main id="catalog-grid" className="max-w-7xl mx-auto py-4 lg:py-8 px-2 sm:px-3 lg:px-4 flex-grow no-print">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* Left Column: Wizard steps components */}
+          <div className="lg:col-span-8 space-y-12 pb-24 lg:pb-0">
+            <WizardSteps
+              activeStep={activeStep}
+              selectedCategoryId={selectedCategoryId}
+              selectedPackageId={selectedPackageId}
+              selectedFeatureIds={selectedFeatureIds}
+              selectedInfrastructureIds={selectedInfrastructureIds}
+              selectedSupportId={selectedSupportId}
+
+              onSelectCategory={handleSelectCategory}
+              onSelectPackage={handleSelectPackage}
+              onToggleFeature={handleToggleFeature}
+              onToggleInfrastructure={handleToggleInfrastructure}
+              onSelectSupport={handleSelectSupport}
+              onApplyPreset={handleApplyPreset}
+
+              clientName={clientName}
+              onClientNameChange={setClientName}
+              businessName={businessName}
+              onBusinessNameChange={setBusinessName}
+              phone={phone}
+              onPhoneChange={setPhone}
+              email={email}
+              onEmailChange={setEmail}
+              callbackNotes={callbackNotes}
+              onCallbackNotesChange={setCallbackNotes}
+
+              onSubmitInquiry={handleSubmitInquiry}
+              onPrintProposal={handlePrintProposal}
+
+              budgetMode={budgetMode}
+              onToggleBudgetMode={setBudgetMode}
+
+              productInsertCount={productInsertCount}
+              onProductInsertCountChange={setProductInsertCount}
+              aiPhotoProductCount={aiPhotoProductCount}
+              onAiPhotoProductCountChange={setAiPhotoProductCount}
+              aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
+              onAiPhotoImagesPerProductChange={setAiPhotoImagesPerProduct}
+            />
+          </div>
+
+          {/* Right Column: Sticky Quote Builder sidebar */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-24">
+            <EstimatorSidebar
+              activeStep={activeStep}
+              onStepChange={setActiveStep}
+              onReset={handleReset}
+
+              selectedCategoryId={selectedCategoryId}
+              selectedPackageId={selectedPackageId}
+              selectedFeatures={selectedFeatures}
+              selectedInfrastructure={selectedInfrastructure}
+              selectedSupport={selectedSupport}
+
+              budgetMode={budgetMode}
+              budgetLimit={budgetLimit}
+              onBudgetLimitChange={setBudgetLimit}
+              onApplyRealityAlternative={handleApplyRealityAlternative}
+
+              oneTimeTotal={oneTimeTotal}
+              monthlyTotal={monthlyTotal}
+              yearlyTotal={yearlyTotal}
+              totalTimelineDays={totalTimelineDays}
+            />
+          </aside>
+
+        </div>
+      </main>
+
+      {/* Client Terms Transparency Cards */}
       <div className="no-print">
-        <Hero onScrollToCalculator={scrollToCalculator} />
+        <ClientTerms />
+      </div>
+
+      {/* Why Choose Us Full-Width Section */}
+      <div className="no-print">
+        <WhyChooseUs />
       </div>
 
       {/* Trust Badges Banner */}
@@ -371,91 +450,6 @@ function App() {
           </div>
         </div>
       </section>
-
-      {/* Split Layout Container */}
-      <main id="catalog-grid" className="max-w-7xl mx-auto py-8 lg:py-16 px-4 sm:px-6 lg:px-8 flex-grow no-print">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Wizard steps components */}
-          <div className="lg:col-span-8 space-y-12 pb-24 lg:pb-0">
-            <WizardSteps
-              activeStep={activeStep}
-              selectedCategoryId={selectedCategoryId}
-              selectedPackageId={selectedPackageId}
-              selectedFeatureIds={selectedFeatureIds}
-              selectedInfrastructureIds={selectedInfrastructureIds}
-              selectedSupportId={selectedSupportId}
-              
-              onSelectCategory={handleSelectCategory}
-              onSelectPackage={handleSelectPackage}
-              onToggleFeature={handleToggleFeature}
-              onToggleInfrastructure={handleToggleInfrastructure}
-              onSelectSupport={handleSelectSupport}
-              onApplyPreset={handleApplyPreset}
-              
-              clientName={clientName}
-              onClientNameChange={setClientName}
-              businessName={businessName}
-              onBusinessNameChange={setBusinessName}
-              phone={phone}
-              onPhoneChange={setPhone}
-              email={email}
-              onEmailChange={setEmail}
-              callbackNotes={callbackNotes}
-              onCallbackNotesChange={setCallbackNotes}
-              
-              onSubmitInquiry={handleSubmitInquiry}
-              onPrintProposal={handlePrintProposal}
-              
-              budgetMode={budgetMode}
-              onToggleBudgetMode={setBudgetMode}
-
-              productInsertCount={productInsertCount}
-              onProductInsertCountChange={setProductInsertCount}
-              aiPhotoProductCount={aiPhotoProductCount}
-              onAiPhotoProductCountChange={setAiPhotoProductCount}
-              aiPhotoImagesPerProduct={aiPhotoImagesPerProduct}
-              onAiPhotoImagesPerProductChange={setAiPhotoImagesPerProduct}
-            />
-          </div>
-
-          {/* Right Column: Sticky Quote Builder sidebar */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-24">
-            <EstimatorSidebar
-              activeStep={activeStep}
-              onStepChange={setActiveStep}
-              onReset={handleReset}
-              
-              selectedCategoryId={selectedCategoryId}
-              selectedPackageId={selectedPackageId}
-              selectedFeatures={selectedFeatures}
-              selectedInfrastructure={selectedInfrastructure}
-              selectedSupport={selectedSupport}
-              
-              budgetMode={budgetMode}
-              budgetLimit={budgetLimit}
-              onBudgetLimitChange={setBudgetLimit}
-              onApplyRealityAlternative={handleApplyRealityAlternative}
-              
-              oneTimeTotal={oneTimeTotal}
-              monthlyTotal={monthlyTotal}
-              yearlyTotal={yearlyTotal}
-              totalTimelineDays={totalTimelineDays}
-            />
-          </aside>
-
-        </div>
-      </main>
-
-      {/* Client Terms Transparency Cards */}
-      <div className="no-print">
-        <ClientTerms />
-      </div>
-
-      {/* Why Choose Us Full-Width Section */}
-      <div className="no-print">
-        <WhyChooseUs />
-      </div>
 
       {/* Footer Section */}
       <div className="no-print">
