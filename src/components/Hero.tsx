@@ -67,6 +67,8 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
             <img 
               src="/estimator_mockup.png" 
               alt="Software Cost Estimator Mockup" 
+              width="512"
+              height="341"
               className="w-full h-auto object-cover rounded-xl shadow-inner relative z-10"
               loading="eager"
             />

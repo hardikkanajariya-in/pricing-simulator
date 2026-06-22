@@ -335,6 +335,7 @@ function App() {
               href={BRAND_INFO.contacts.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="WhatsApp Me"
               className="flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100/80 text-emerald-700 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-emerald-200/50 transition-all duration-300"
             >
               <MessageSquare className="w-4 h-4" />
