@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
-import * as Icons from 'lucide-react';
-import { Check } from 'lucide-react';
+import { 
+  HelpCircle, CheckCircle2, Download, PhoneCall, Sparkles, Send, Check,
+  Megaphone, Briefcase, LayoutGrid, ShoppingBag, Layers, Users, Settings, Package, Smartphone, Monitor, Wrench, Cpu, Brain,
+  Database, Plus, Minus, Trash2, Image, AlertTriangle
+} from 'lucide-react';
+
+const Icons = {
+  HelpCircle, CheckCircle2, Download, PhoneCall, Sparkles, Send, Check,
+  Megaphone, Briefcase, LayoutGrid, ShoppingBag, Layers, Users, Settings, Package, Smartphone, Monitor, Wrench, Cpu, Brain,
+  Database, Plus, Minus, Trash2, Image, AlertTriangle
+};
+
 import {
   Feature, ProjectPreset,
   CORE_CATEGORIES, CORE_PACKAGES, FEATURES, THIRD_PARTY_SERVICES, SUPPORT_TIERS, PROJECT_TYPE_PRESETS
